@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DepartmentCard from './DepartmentCard';
 
 const DepartmentsSection = ({departments, title}) => {
@@ -17,9 +16,11 @@ const DepartmentsSection = ({departments, title}) => {
             <h1 style={{textAlign: 'center'}}>
                 {title}
             </h1>
-            <div className='grid'>
-                {departments.map((department, index) =>
-                        <DepartmentCard key={department.id} />)}
+            <div className='cards_container'>
+                <div className='grid'>
+                    {departments.map((department) =>
+                        <DepartmentCard key={department.id} id={department.id} title={department.title} summary={department.summary}/>)}
+                </div>
             </div>
         </div>
     );
