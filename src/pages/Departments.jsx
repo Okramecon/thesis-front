@@ -16,7 +16,7 @@ const Departments = props => {
     }, []);
 
     return (
-        <div>
+        <div className='test'>
             <DepartmentsSection departments={departments} title="Departments"/>
         </div>
     );

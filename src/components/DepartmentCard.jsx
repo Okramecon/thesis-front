@@ -5,29 +5,26 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const DepartmentCard = props => {
+
+    const navigate = useNavigate();
+
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-                component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt="green iguana"
-            />
+        <Card sx={{ maxWidth: 345 }} onClick={() => navigate(`/departments/${props.id}`)} className='cursor_ptr'>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                Lizard
+                {props.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
+                {props.summary}
                 </Typography>
             </CardContent>
-            <CardActions>
+            {/* <CardActions>
                 <Button size="small">Share</Button>
                 <Button size="small">Learn More</Button>
-            </CardActions>
+            </CardActions> */}
         </Card>
     );
 };
