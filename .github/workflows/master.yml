@@ -1,0 +1,22 @@
+name: barybar-web-workflow
+
+on:
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: azure/docker-login@v1
+        with:
+          login-server: cr.yandex
+          username: ${{ secrets.CR_USERNAME }}
+          password: ${{ secrets.CR_PASSWORD }}
+
+      - run: |
+          docker build . -t cr.yandex/thesis-web-image:latest
+          docker push cr.yandex/thesis-web-image:latest
