@@ -84,5 +84,11 @@
 
 .sidebarList #active {
   background-color: #293846;
+}
 
+/*deartment form*/
+.departmentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

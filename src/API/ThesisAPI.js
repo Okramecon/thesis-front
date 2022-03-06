@@ -15,4 +15,9 @@ export default class ThesisAPIService {
         var response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
         return response;
     }
+
+    static async postDepartment(model) {
+        var response = await axios.post(`https://localhost:44312/api/Departments/`, model);
+        return response;
+    }
 }
