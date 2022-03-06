@@ -18,5 +18,5 @@ jobs:
           password: ${{ secrets.CR_PASSWORD }}
 
       - run: |
-          docker build . -t cr.yandex/thesis-web-image:latest
-          docker push cr.yandex/thesis-web-image:latest
+          docker build . -t cr.yandex/crpace1ttbhh9ft73f8m/thesis-web-image:latest
+          docker push cr.yandex/crpace1ttbhh9ft73f8m/thesis-web-image:latest
