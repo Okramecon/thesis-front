@@ -1,4 +1,4 @@
-name: barybar-web-workflow
+name: thesis-web-workflow
 
 on:
   pull_request:
