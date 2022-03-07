@@ -11,21 +11,26 @@ const DepartmentCard = (props) => {
 
     const navigate = useNavigate();
 
-    const onClickAction = props.onClick === undefined ?
-        () => navigate(`/departments/${props.id}`) :
-        () => props.onClick();
+    const onClickAction = props.isAdditionalCard ?
+    () => props.onClick() :
+        () => navigate(`/departments/${props.id}`);
 
     return (
-        <Card sx={{ maxWidth: 345 }} onClick={onClickAction} className='cursor_ptr'>
-            <CardContent >
-                <Typography gutterBottom variant="h5" component="div">
-                {props.title}
-                </Typography>
-                <div style={props.style}></div>
-                <Typography variant="body2" color="text.secondary">
-                {props.summary}
-                </Typography>
-            </CardContent>
+        <Card sx={{ width: 250, height: 150, display: "flex", boxShadow: "0px 4px 6px 2px  rgba(0,0,0,0.2)" }} onClick={onClickAction} className='cursor_ptr'>
+           
+            {props.isAdditionalCard
+                ? <div style={props.style}></div>
+                :<CardContent>
+
+                    <Typography gutterBottom variant="h5" component="div">
+                    {props.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {props.summary}
+                    </Typography>
+                </CardContent>
+            }
+            
             {/* <CardActions>
                 <Button size="small">Share</Button>
                 <Button size="small">Learn More</Button>
