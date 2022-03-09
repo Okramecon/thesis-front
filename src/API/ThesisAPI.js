@@ -3,7 +3,7 @@ var apiUrl = "http://84.252.140.218:5000/api";
 if(process.env.NODE_ENV != "development") {
     apiUrl = "http://84.252.140.218:5000/api";
 } else {
-    apiUrl = "https://localhost:44312";
+    apiUrl = "http://84.252.140.218:5000/api";
 }
 
 export default class ThesisAPIService {
@@ -24,7 +24,11 @@ export default class ThesisAPIService {
     }
 
     static async postDepartment(model) {
-        var response = await axios.post(`https://localhost:44312/api/Departments/`, model);
+        var response = await axios.post(`${apiUrl}/Departments/`, model);
         return response;
+    }
+
+    static async loginWithCredentials({login, password}) {
+        axios.post().then().catch();
     }
 }

@@ -15,7 +15,6 @@ const AppRouter = () => {
                     element={route.element}
                 />)
             })}
-            <Route path="*" element={<DepartmentCard/>}/>
         </Routes>
     );
 };
