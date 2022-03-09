@@ -27,4 +27,8 @@ export default class ThesisAPIService {
         var response = await axios.post(`${apiUrl}/Departments/`, model);
         return response;
     }
+
+    static async loginWithCredentials({login, password}) {
+        axios.post().then().catch();
+    }
 }
