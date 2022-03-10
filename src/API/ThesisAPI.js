@@ -1,6 +1,6 @@
 import axios from "axios";
 var apiUrl = "http://84.252.140.218:5000/api";
-if(process.env.NODE_ENV != "development") {
+if(process.env.NODE_ENV !== "development") {
     apiUrl = "http://84.252.140.218:5000/api";
 } else {
     apiUrl = "http://84.252.140.218:5000/api";
