@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 
-function Navbar(props) {
+function Navbar({showHideSidebar}) {
     const navigate = useNavigate();
     return (        
         <Box sx={{ flexGrow: 1 }}>
@@ -20,7 +20,7 @@ function Navbar(props) {
                     color="inherit"
                     aria-label="menu"
                     sx={{ mr: 2 }}
-                    onClick={() => props.showHideSidebar()}
+                    onClick={() => showHideSidebar()}
                 >
                     <MenuIcon/>
                 </IconButton>

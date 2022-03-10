@@ -1,3 +1,4 @@
+import { Drawer } from '@mui/material';
 import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
@@ -6,10 +7,10 @@ import Sidebar from './components/Sidebar';
 import './styles/App.css';
 
 function App() {
-  const [sidebarIsVisible, setSidebarIsVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  const showHideSidebar = () => {
-    setSidebarIsVisible(!sidebarIsVisible);
+  const showHideSidebar = (prevVisibleState) => {
+    setSidebarVisible(!prevVisibleState);
   }
 
   return (
@@ -17,7 +18,13 @@ function App() {
       <BrowserRouter>
         <Navbar showHideSidebar={showHideSidebar} />
         <div className='main'>
-          {sidebarIsVisible && <Sidebar />}
+          <Drawer
+            anchor='left'
+            open={sidebarVisible}
+            onClose={showHideSidebar}
+          >
+            <Sidebar setSidebarVisible={setSidebarVisible}/>
+          </Drawer>
           <AppRouter/>
         </div>
       </BrowserRouter>
