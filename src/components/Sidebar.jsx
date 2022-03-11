@@ -5,7 +5,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { SidebarButtons } from '../helpers/SidebarButtons';
 
 const Sidebar = ({setSidebarVisible}) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
       <Box
