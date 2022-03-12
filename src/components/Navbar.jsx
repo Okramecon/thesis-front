@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import AccountPopup from './AccountPopup';
 
 function Navbar({showHideSidebar}) {
   const navigate = useNavigate();
@@ -28,8 +29,7 @@ function Navbar({showHideSidebar}) {
               Thesis
           </Typography>
           {
-            localStorage.getItem('loggedIn') ?
-              (<Typography variant="h6" component="div"> {localStorage.getItem('username')} </Typography>)
+            localStorage.getItem('loggedIn') ? (<AccountPopup/>)
               : (<Button color="inherit" onClick={() => navigate("login")}>Login</Button>)
           }
         </Toolbar>

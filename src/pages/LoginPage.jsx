@@ -24,13 +24,13 @@ function LoginPage() {
         localStorage.setItem('bearer', 'Bearer ' + loginData.bearer)
         localStorage.setItem('username', loginData.userName)
         localStorage.setItem('loggedIn', true)
-        setAlertState({ loginAlertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
+        setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
         navigate('/')
         return
       }
     }
 
-    setAlertState({ loginAlertOpen: true, message: 'Wrong login credentials', severity: AlertSeverities.error})
+    setAlertState({ alertOpen: true, message: 'Wrong login credentials', severity: AlertSeverities.error})
   }
 
   return (
