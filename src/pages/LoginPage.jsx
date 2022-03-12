@@ -11,11 +11,20 @@ function LoginPage() {
   const {login, password} = loginCredentials
   const navigate = useNavigate()
   const setAlertState = useContext(AppContext)
+
+  const validateLoginCredentials = () => {
+    return login && password
+  }
+
   const loginWithCredentials = () => {
-    /*const bearerToken = ThesisAPIService.loginWithCredentials(loginCredentials)
-    localStorage.setItem('bearer', bearerToken)*/
-    setAlertState({ loginAlertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
-    navigate('/')
+    if(validateLoginCredentials()) {
+      /*const bearerToken = ThesisAPIService.loginWithCredentials(loginCredentials)
+      localStorage.setItem('bearer', bearerToken)*/
+      setAlertState({ loginAlertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
+      navigate('/')
+    } else {
+      setAlertState({ loginAlertOpen: true, message: 'Wrong login credentials', severity: AlertSeverities.error})
+    }
   }
 
   return (
