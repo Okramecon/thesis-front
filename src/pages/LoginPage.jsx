@@ -16,15 +16,21 @@ function LoginPage() {
     return login && password
   }
 
-  const loginWithCredentials = () => {
+  const loginWithCredentials = async () => {
+
     if(validateLoginCredentials()) {
-      /*const bearerToken = ThesisAPIService.loginWithCredentials(loginCredentials)
-      localStorage.setItem('bearer', bearerToken)*/
-      setAlertState({ loginAlertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
-      navigate('/')
-    } else {
-      setAlertState({ loginAlertOpen: true, message: 'Wrong login credentials', severity: AlertSeverities.error})
+      const loginData = await ThesisAPIService.loginWithCredentials(loginCredentials)  
+      if(loginData.ok) {
+        localStorage.setItem('bearer', 'Bearer ' + loginData.bearer)
+        localStorage.setItem('username', loginData.userName)
+        localStorage.setItem('loggedIn', true)
+        setAlertState({ loginAlertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
+        navigate('/')
+        return
+      }
     }
+
+    setAlertState({ loginAlertOpen: true, message: 'Wrong login credentials', severity: AlertSeverities.error})
   }
 
   return (
@@ -64,7 +70,7 @@ function LoginPage() {
               />
             </Grid>
             <Grid item>
-                <Button variant="contained" onClick={() => loginWithCredentials()}>Login</Button>
+                <Button variant="contained" onClick={async () => await loginWithCredentials()}>Login</Button>
             </Grid>
           </Grid>
         </Paper>

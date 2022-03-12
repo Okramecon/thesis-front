@@ -9,29 +9,33 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 
 function Navbar({showHideSidebar}) {
-    const navigate = useNavigate();
-    return (        
-        <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-            <Toolbar>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                    onClick={() => showHideSidebar()}
-                >
-                    <MenuIcon/>
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Test
-                </Typography>
-                <Button color="inherit" onClick={() => navigate("login")}>Login</Button>
-            </Toolbar>
-        </AppBar>
-        </Box>
-    );
+  const navigate = useNavigate();
+  return (        
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => showHideSidebar()}
+          >
+            <MenuIcon/>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Thesis
+          </Typography>
+          {
+            localStorage.getItem('loggedIn') ?
+              (<Typography variant="h6" component="div"> {localStorage.getItem('username')} </Typography>)
+              : (<Button color="inherit" onClick={() => navigate("login")}>Login</Button>)
+          }
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
 }
 
 export default Navbar;

@@ -29,6 +29,21 @@ export default class ThesisAPIService {
     }
 
     static async loginWithCredentials({login, password}) {
-        axios.post().then().catch()
+        var response = await axios({
+            method: 'post',
+            url: `${apiUrl}/Auth/Login`,
+            data: {
+                userName: login,
+                password: password
+            }
+        })
+        
+        switch(response.status) {
+            case 200: 
+                return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+            case 400:;
+            case 500:
+                return { ok: false, message: response.data.message }
+        }
     }
 }
