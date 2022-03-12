@@ -40,6 +40,14 @@
   max-width: 100%;
 }
 
+/******* Loader *******/
+
+.onCenter {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
   /*******Cards*******/
 
 .cards_container {
