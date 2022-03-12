@@ -1,8 +1,6 @@
 import React from 'react';
 import DepartmentsIcon from '@mui/icons-material/CardTravel';
-import { publicRoutes } from '../router/Routes';
-
-const links = publicRoutes;
+import { Settings } from '@mui/icons-material';
 
 export const SidebarButtons = [
     {
@@ -11,18 +9,8 @@ export const SidebarButtons = [
         link: "departments"
     },
     {
-        title: "Departments1",
-        icon: <DepartmentsIcon />,
-        link: "departments"
-    },
-    {
-        title: "Departments2",
-        icon: <DepartmentsIcon />,
-        link: "departments"
-    },
-    {
-        title: "Departments3",
-        icon: <DepartmentsIcon />,
-        link: "departments"
+        title: "Settings",
+        icon: <Settings />,
+        link: "settings"
     }
 ]
