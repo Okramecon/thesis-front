@@ -4,12 +4,12 @@ import ThesisAPIService from '../API/ThesisAPI';
 import DepartmentsSection from '../components/DepartmentsSection';
 import CircularLoader from '../components/UI/CircularLoader/CircularLoader';
 
-const Departments = props => {
+const Departments = () => {
     const [departments, setDepartmnets] = useState([]);
 
     const [fetchDepartments, isDepartmentLoading, departmentError] = useFetching(async () => {
             const response =  await ThesisAPIService.getAll();
-            setDepartmnets([...departments, ...response.data]);
+            setDepartmnets(response.data);
       });
     
     useEffect(() => {
@@ -20,7 +20,7 @@ const Departments = props => {
         <div className='submain'>
             {isDepartmentLoading &&
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><CircularLoader/></div>}
-            <DepartmentsSection isDepartmentLoading={isDepartmentLoading} departments={departments} title="Departments"/>
+            <DepartmentsSection isDepartmentLoading={isDepartmentLoading} departments={departments} title="Departments" fetchDepartments={fetchDepartments}/>
         </div>
     );
 };
