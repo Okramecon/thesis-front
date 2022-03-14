@@ -1,9 +1,10 @@
 import axios from "axios";
 var apiUrl = "http://84.252.140.218:5000/api";
+
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "http://84.252.140.218:5000/api";
 } else {
-    apiUrl = "http://84.252.140.218:5000/api";
+    apiUrl = "https://localhost:44312/api";
 }
 
 export default class ThesisAPIService {
@@ -28,6 +29,14 @@ export default class ThesisAPIService {
         return response
     }
 
+    /*Projects*/
+
+    static async getProjectsByDepartmentId(id) {
+        var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
+        return response;
+    }
+
+    /*Login*/
     static async loginWithCredentials({login, password}) {
         var response = await axios({
             method: 'post',

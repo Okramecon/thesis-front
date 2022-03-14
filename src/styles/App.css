@@ -31,13 +31,12 @@
   align-items: stretch;
 }
 
-.grid > DepartmentCard {
-  border: 1px solid #ccc;
-  box-shadow: 2px 2px 20px 0px  rgba(0,0,0,0.5);
-}
+/******* Loader *******/
 
-.grid > DepartmentCard img {
-  max-width: 100%;
+.onCenter {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
   /*******Cards*******/
@@ -46,8 +45,15 @@
   padding: 20px 10px;
 }
 
-.cursor_ptr {
-  cursor: pointer;
+.addCardContent {
+  background-image: url('../images/icons-add.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 50px;
+  width: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin: auto;
 }
 
   /*********Sidebar*********/
