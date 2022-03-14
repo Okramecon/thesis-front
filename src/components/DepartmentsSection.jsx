@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import DepartmentCard from './DepartmentCard';
 import addIcon from '../images/icons-add.png'
 import AddDepartmentForm from './AddDepartmentForm';
+import ClickableCard from './UI/ClickableCard/ClickableCard';
+import { useNavigate } from 'react-router-dom';
 
 const DepartmentsSection = ({isDepartmentLoading, departments, title}) => {
 
+    const navigate = useNavigate();
     const [addModal, setAddModal] = useState(false);
 
     if (isDepartmentLoading)
@@ -27,18 +29,21 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title}) => {
             <div className='cards_container'>
                 <div className='grid'>
                     {departments.map((department) =>
-                        <DepartmentCard key={department.id} id={department.id} title={department.title} summary={department.summary}/>)}
-                        <DepartmentCard key={-1} id={0} isAdditionalCard='true' className='addCard' style={{
-                            backgroundImage: `url(${addIcon})`,
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat',
-                            height: '50px',
-                            width: '50px',
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            margin: "auto"
-                        }}
-                        onClick={() => setAddModal(true)}/>
+                        <ClickableCard
+                            key={department.id}
+                            id={department.id}
+                            title={department.title}
+                            summary={department.summary}
+                            onClickAction={() => navigate(`/departments/${department.id}`)}/>)
+                    }
+                    <ClickableCard
+                        key={-1}
+                        id={0}
+                        isAdditionalCard='true'
+                        className='addCard'
+                        onClickAction={() => setAddModal(true)}>
+                        <div className='addCardContent'></div>
+                    </ClickableCard>
                 </div>
             </div>
             

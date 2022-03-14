@@ -19,7 +19,7 @@ const Departments = props => {
     return (
         <div className='submain'>
             {isDepartmentLoading &&
-                <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><CircularLoader/></div>}
+                <div className='onCenter'><CircularLoader/></div>}
             <DepartmentsSection isDepartmentLoading={isDepartmentLoading} departments={departments} title="Departments"/>
         </div>
     );

@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "../router/Routes";
-import DepartmentCard from "./DepartmentCard";
 
 const AppRouter = () => {
 

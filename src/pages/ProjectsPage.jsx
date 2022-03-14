@@ -8,29 +8,22 @@ import { useFetching } from '../hooks/useFetching';
 export default function ProjectsPage() {
 
   const [projects, setProjects] = useState([]);
-  const [test, setTest] = useState([]);
   const params = useParams();
 
   const [fetchProjects, isProjectsLoading, loadError] = useFetching( async () => {
       const response = await ThesisAPIService.getProjectsByDepartmentId(params.id);
       setProjects([...projects, ...response.data]);
-      setTest([...test, ...response.data])
-      console.log(test);
   });
 
   useEffect(() => {
       fetchProjects();
-      console.log(test);
   }, []);
 
   return (
-    <div>
-        <h1>Projects</h1>
-        <div className='grid'>
-          {isProjectsLoading &&
-            <div className='onCeneter'><CircularLoader/></div>}
-          <ProjectsSection projects={projects} title="Projects"/>
-        </div>
-    </div>
+      <div className='submain'>
+        {isProjectsLoading &&
+          <div className='onCeneter'><CircularLoader/></div>}
+        <ProjectsSection projects={projects} title="Projects"/>
+      </div>
   )
 }
