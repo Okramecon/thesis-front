@@ -2,8 +2,8 @@ import { AccountCircleOutlined } from '@mui/icons-material'
 import { Button, Grid, IconButton, Popover, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../App';
-import AlertSeverities from '../helpers/AlertSeverities';
+import { AppContext } from '../../App';
+import AlertSeverities from '../../helpers/AlertSeverities';
 
 function AccountPopup() {
   const setAlertState = useContext(AppContext)
