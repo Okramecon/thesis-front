@@ -32,7 +32,7 @@ export default class ThesisAPIService {
     /*Projects*/
 
     static async getProjectsByDepartmentId(id) {
-        var response = await axios.get(`${apiUrl}/Projects/${id}/projects`);
+        var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
         return response;
     }
 
