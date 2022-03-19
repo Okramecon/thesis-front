@@ -1,10 +1,13 @@
 import { Button, TextField } from '@mui/material'
 import ThesisAPIService from 'API/ThesisAPI'
-import React, { useState } from 'react'
+import { AppContext } from 'App'
+import AlertSeverities from 'helpers/AlertSeverities'
+import React, { useContext, useState } from 'react'
 
-function RegisterForm() {
+function RegisterForm({ closeModal }) {
   const [registerData, setRegisterData] = useState({})
   const { email, password, passwordConfirmation } = registerData
+  const setAlertState = useContext(AppContext)
 
   const handleEmailChange = function(e) {
     setRegisterData({...registerData, email:e.target.value})
@@ -16,19 +19,50 @@ function RegisterForm() {
     setRegisterData({...registerData, passwordConfirmation:e.target.value})
   }
 
-  const register = async () => {
-    if(!password || password != passwordConfirmation) {
-      alert("Password cannot be empty and password confirmation should match password")
-      return
+  const isRegistrationDataValid = (email, password, passwordConfirmation) => {
+    var isValid = true
+    var errorMessage = ""
+    if(!password) {
+      errorMessage = "Password must be non-empty"
+      isValid = false
     }
+
+    if(password < 6) {
+      errorMessage = "Password length must be more than 6"
+      isValid = false
+    }
+
+    if(password !== passwordConfirmation) {
+      errorMessage = "Password and confirmation do not match"
+      isValid = false
+    }
+
     if(!email) {
-      alert("Email field must filled")
+      errorMessage = 'Email field must filled'
+      isValid = false
+    }
+
+    if(!isValid) {
+      setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error})
+    }
+
+    return isValid
+  }
+
+  const register = async () => {
+    if(!isRegistrationDataValid(email, password, passwordConfirmation)) {
       return
     }
 
-    //request
-    var response = await ThesisAPIService.registerNewUser({ email, password }) 
-    alert(response)
+    var response = await ThesisAPIService.registerNewUser({ email, password })
+
+    if(response.ok) {
+      setAlertState({alertOpen: true, message: 'Successfully registered', severity: AlertSeverities.success})
+      closeModal();
+    } else {
+      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success})
+    }
+    console.log(response.data)
   }
 
   return (
@@ -54,7 +88,7 @@ function RegisterForm() {
         value={passwordConfirmation}
         onChange={handlePasswordConfirmationChange}
       />
-      <Button variant="contained" onClick={register}>Register</Button>
+      <Button variant="contained" onClick={async () => await register()}>Register</Button>
     </div>
   )
 }

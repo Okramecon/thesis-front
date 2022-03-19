@@ -35,7 +35,8 @@ export default class ThesisAPIService {
           data: {
               userName: login,
               password: password
-          }
+          },
+          validateStatus: () => true
       })
       
       switch(response.status) {
@@ -48,7 +49,14 @@ export default class ThesisAPIService {
     }
 
     static async registerNewUser({email, password}) {
-      var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password})
-      return response.data
+      var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password}, { validateStatus: () => true })
+      
+      switch(response.status) {
+        case 200: 
+            return { ok: true }
+        case 400:;
+        case 500:
+            return { ok: false, message: response.data.message }
+      }
     }
 }

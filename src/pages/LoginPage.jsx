@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import TextField from '@mui/material/TextField';
-import { Button, Grid, Paper, Stack, Box, Snackbar, Alert } from '@mui/material';
+import { Button, Grid, Paper, Box } from '@mui/material';
 import ThesisAPIService from '../API/ThesisAPI';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../App';
@@ -26,6 +26,9 @@ function LoginPage() {
         localStorage.setItem('loggedIn', true)
         setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
         navigate('/')
+        return
+      } else {
+        setAlertState({ alertOpen: true, message: loginData.message, severity: AlertSeverities.error})   
         return
       }
     }

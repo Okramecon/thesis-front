@@ -36,7 +36,7 @@ function RegisterModal() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <RegisterForm/>
+            <RegisterForm closeModal={() => setOpen(false)}/>
           </Box>
         </Fade>
       </Modal>
