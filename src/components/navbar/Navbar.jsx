@@ -8,7 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import AccountPopup from './AccountPopup';
-import { Link } from '@mui/material';
+import { Link, List } from '@mui/material';
+import RegisterModal from '../Register/RegisterModal';
 
 function Navbar({showHideSidebar}) {
   const navigate = useNavigate();
@@ -33,7 +34,12 @@ function Navbar({showHideSidebar}) {
           </Link>
           {
             localStorage.getItem('loggedIn') ? (<AccountPopup/>)
-              : (<Button color="inherit" onClick={() => navigate("login")}>Login</Button>)
+              : (
+              <List>
+                <Button color="inherit" onClick={() => navigate("login")}>Login</Button>
+                <RegisterModal/>
+              </List>
+              )
           }
         </Toolbar>
       </AppBar>
