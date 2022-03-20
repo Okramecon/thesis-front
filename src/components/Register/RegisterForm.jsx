@@ -3,11 +3,13 @@ import ThesisAPIService from 'API/ThesisAPI'
 import { AppContext } from 'App'
 import AlertSeverities from 'helpers/AlertSeverities'
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function RegisterForm({ closeModal }) {
   const [registerData, setRegisterData] = useState({})
   const { email, password, passwordConfirmation } = registerData
   const setAlertState = useContext(AppContext)
+  const navigate = useNavigate();
 
   const handleEmailChange = function(e) {
     setRegisterData({...registerData, email:e.target.value})
@@ -50,19 +52,19 @@ function RegisterForm({ closeModal }) {
   }
 
   const register = async () => {
-    if(!isRegistrationDataValid(email, password, passwordConfirmation)) {
-      return
-    }
+    // if(!isRegistrationDataValid(email, password, passwordConfirmation)) {
+    //   return
+    // }
 
     var response = await ThesisAPIService.registerNewUser({ email, password })
 
     if(response.ok) {
-      setAlertState({alertOpen: true, message: 'Successfully registered', severity: AlertSeverities.success})
+      setAlertState({alertOpen: true, message: 'Confirmation code sent to your email', severity: AlertSeverities.success, duration: 6000})
       closeModal();
+      navigate("/successRegistration")
     } else {
-      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success})
+      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
     }
-    console.log(response.data)
   }
 
   return (

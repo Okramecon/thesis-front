@@ -1,3 +1,5 @@
+import EmailTokenHandlerPage from "pages/EmailTokenHandlerPage"
+import SuccessfullRegistrationPage from "pages/SuccessfullRegistrationPage"
 import DepartmentIdPage from "../pages/DepartmentIdPage"
 import Departments from "../pages/Departments"
 import LoginPage from "../pages/LoginPage"
@@ -11,5 +13,7 @@ export const publicRoutes = [
     {path: 'departments', element: (<Departments/>), exact: true},
     {path: 'departments/:id', element: (<DepartmentIdPage/>), exact: true},
     {path: 'departments/:id/projects', element: (<ProjectsPage/>), exact: true},
-    {path: 'login', element: (<LoginPage/>), exact: true}
+    {path: 'login', element: (<LoginPage/>), exact: true},
+    {path: 'successRegistration', element: (<SuccessfullRegistrationPage/>), exact: true},
+    {path: 'token/:token', element: (<EmailTokenHandlerPage/>), exact: true}
 ]
