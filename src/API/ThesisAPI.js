@@ -4,7 +4,7 @@ var apiUrl = "http://84.252.140.218:5000/api";
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "http://84.252.140.218:5000/api";
 } else {
-    apiUrl = "https://localhost:44312/api";
+    apiUrl = "http://84.252.140.218:5000/api";
 }
 
 export default class ThesisAPIService {
@@ -53,7 +53,7 @@ export default class ThesisAPIService {
               return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
           case 400:;
           case 500:
-              return { ok: false, message: response.data.message }
+              return { ok: false, message: response.data.Message }
       }
     }
 
@@ -65,7 +65,18 @@ export default class ThesisAPIService {
             return { ok: true }
         case 400:;
         case 500:
-            return { ok: false, message: response.data.message }
+            return { ok: false, message: response.data.Message }
+      }
+    }
+
+    static async handleEmailToken(token) {
+      var response = await axios.get(`${apiUrl}/Tokens/Email/${token}`, { validateStatus: () => true })
+      switch(response.status) {
+        case 200: 
+            return { ok: true, message: 'Successfully confirmed email!' }
+        case 400:;
+        case 500:
+            return { ok: false, message: response.data.Message }
       }
     }
 }
