@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,11 +8,16 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import AccountPopup from './AccountPopup';
-import { Link, List } from '@mui/material';
+import { Drawer, Link, List } from '@mui/material';
 import RegisterModal from '../Register/RegisterModal';
+import Sidebar from 'components/Sidebar';
 
-function Navbar({showHideSidebar}) {
+function Navbar() {
   const navigate = useNavigate();
+  const [sidebarVisible, setSidebarVisible] = useState(false)
+  const showHideSidebar = (prevVisibleState) => {
+    setSidebarVisible(!prevVisibleState);
+  }
   return (        
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -42,6 +47,10 @@ function Navbar({showHideSidebar}) {
               )
           }
         </Toolbar>
+
+        <Drawer anchor='left' open={sidebarVisible} onClose={showHideSidebar}>
+          <Sidebar setSidebarVisible={setSidebarVisible}/>
+        </Drawer>
       </AppBar>
     </Box>
   );
