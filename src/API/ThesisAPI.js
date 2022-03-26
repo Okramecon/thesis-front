@@ -1,10 +1,10 @@
 import axios from "axios";
-var apiUrl = "http://84.252.140.218:5000/api";
+var apiUrl = "https://api.thesis.uno/api";
 
 if(process.env.NODE_ENV !== "development") {
-    apiUrl = "http://84.252.140.218:5000/api";
+    apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "http://84.252.140.218:5000/api";
+    apiUrl = "https://api.thesis.uno/api";
 }
 
 export default class ThesisAPIService {
