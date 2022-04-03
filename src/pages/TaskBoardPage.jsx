@@ -11,7 +11,7 @@ function TaskBoardPage() {
   const [tickets, settickets] = useState([]);
 
   const fetchTasks = async () =>  {
-    const response =  await ThesisAPIService.getTasksByProjectId(params.id);
+    const response =  await ThesisAPIService.getTasksByProjectId(params.projectId);
     settickets(response.data);
   }
   

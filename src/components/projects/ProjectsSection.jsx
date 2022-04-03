@@ -1,5 +1,4 @@
 import ClickableCard from 'components/UI/ClickableCard/ClickableCard';
-import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import CreateProjectModal from './CreateProjectModal';
 

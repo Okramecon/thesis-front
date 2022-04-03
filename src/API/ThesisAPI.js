@@ -6,7 +6,7 @@ var apiUrl = "https://api.thesis.uno/api";
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "https://api.thesis.uno/api";
+    apiUrl = "https://localhost:44312/api";
 }
 
 export default class ThesisAPIService {
@@ -91,7 +91,7 @@ export default class ThesisAPIService {
 
     static async UpdateTask(model) {
         var response = await axios.put(`${apiUrl}/Tickets`, model);
-        
+
         switch(response.status) {
             case 200: 
                 return { ok: true }
