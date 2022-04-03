@@ -8,7 +8,8 @@ const Departments = () => {
     const [departments, setDepartmnets] = useState([]);
 
     const [fetchDepartments, isDepartmentLoading, departmentError] = useFetching(async () => {
-            const response =  await ThesisAPIService.getAll();
+            const response =  await ThesisAPIService.getAllDepartments();
+            console.log(response.data);
             setDepartmnets(response.data);
       });
     

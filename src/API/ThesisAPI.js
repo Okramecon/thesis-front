@@ -1,40 +1,86 @@
+/* eslint-disable no-fallthrough */
+/* eslint-disable default-case */
 import axios from "axios";
-var apiUrl = "http://84.252.140.218:5000/api";
+var apiUrl = "https://api.thesis.uno/api";
 
 if(process.env.NODE_ENV !== "development") {
-    apiUrl = "http://84.252.140.218:5000/api";
+    apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "https://localhost:44312/api";
+    apiUrl = "https://api.thesis.uno/api";
 }
 
 export default class ThesisAPIService {
-    static bearerPropertyName = 'bearer'
-    static async getAll(limit = 10, page = 1) {
-        var response = await axios.get(`${apiUrl}/Departments`)
-        return response;
-    }
+  static bearerPropertyName = 'bearer'
+
+  /* DEPARTMENTS */
+
+  static async getAllDepartments() {
+    var response = await axios.get(`${apiUrl}/Departments`)
+    return response;
+  }
+  
+  static async getDepartmentById(id) {
+    var response = await axios.get(`${apiUrl}/Departments/${id}`)
+    return response
+  }
+
+  static async postDepartment(model) {
+    var response = await axios.post(`${apiUrl}/Departments/`, model)
+    return response
+  }
+
+  /* PROJECTS */
+
+  static async getProjectsByDepartmentId(id) {
+      var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
+      return response;
+  }
+
+  static async postProject({ title, summary, departmentId }) {
+    var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true })
+
+    switch(response.status) {
+      case 200: 
+          return { ok: true, message: "Successfully created project!"}
+      case 400:;
+      case 500:
+          return { ok: false, message: response.data.Message }
+  }
+  }
+
+  /* LOGIN */
+  
+  static async loginWithCredentials({login, password}) {
+    var response = await axios({
+        method: 'post',
+        url: `${apiUrl}/Auth/Login`,
+        data: {
+            userName: login,
+            password: password
+        },
+        validateStatus: () => true
+    })
     
-    static async getById(id) {
-        var response = await axios.get(`${apiUrl}/Departments/${id}`)
-        return response
+    switch(response.status) {
+        case 200: 
+            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+        case 400:;
+        case 500:
+            return { ok: false, message: response.data.Message }
     }
+  }
+
+  static async registerNewUser({email, password}) {
+    var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password}, { validateStatus: () => true })
     
-    static async getCommentsByPostId(id) {
-        var response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`)
-        return response
+    switch(response.status) {
+      case 200: 
+          return { ok: true }
+      case 400:;
+      case 500:
+          return { ok: false, message: response.data.Message }
     }
-
-    static async postDepartment(model) {
-        var response = await axios.post(`${apiUrl}/Departments/`, model)
-        return response
-    }
-
-    /*Projects*/
-
-    static async getProjectsByDepartmentId(id) {
-        var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
-        return response;
-    }
+  }
     
     /*Tasks */
     
@@ -45,26 +91,25 @@ export default class ThesisAPIService {
 
     static async UpdateTask(model) {
         var response = await axios.put(`${apiUrl}/Tickets`, model);
-        return response;
-    }
-
-    /*Login*/
-    static async loginWithCredentials({login, password}) {
-        var response = await axios({
-            method: 'post',
-            url: `${apiUrl}/Auth/Login`,
-            data: {
-                userName: login,
-                password: password
-            }
-        })
         
         switch(response.status) {
             case 200: 
-                return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+                return { ok: true }
             case 400:;
             case 500:
-                return { ok: false, message: response.data.message }
-        }
+                return { ok: false, message: response.data.Message }
+          }
     }
+  
+
+  static async handleEmailToken(token) {
+    var response = await axios.get(`${apiUrl}/Tokens/Email/${token}`, { validateStatus: () => true })
+    switch(response.status) {
+      case 200: 
+          return { ok: true, message: 'Successfully confirmed email!' }
+      case 400:;
+      case 500:
+          return { ok: false, message: response.data.Message }
+    }
+  }
 }

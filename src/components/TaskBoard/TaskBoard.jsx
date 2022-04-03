@@ -20,7 +20,7 @@ const TaskBoard = ({tasks}) => {
     const newMyTasks = [...myTasks];
     task.status = toColumnIndex;
     let response = UpdateTask(task);
-    
+
     if (response === 0) {
       console.log("response");
       // remove task
@@ -34,7 +34,7 @@ const TaskBoard = ({tasks}) => {
   const UpdateTask = async (task) => {
     const response = await ThesisAPIService.UpdateTask(task);
 
-    if(response.status === 200) {
+    if(response.ok) {
       setAlertState({ alertOpen: true, message: 'Successfully saved changes!', severity: AlertSeverities.success})
       return 0;
     }
