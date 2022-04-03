@@ -1,8 +1,14 @@
 import ClickableCard from 'components/UI/ClickableCard/ClickableCard';
-import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import CreateProjectModal from './CreateProjectModal';
 
 export default function ProjectsSection({projects, title, fetchProjects}) {
+ 
+  const navigate = useNavigate();
+
+  const onProjectClick = (id) => {
+    navigate(`/project/${id}/taskboard`)
+  }
 
   return (
     <div>
@@ -16,7 +22,8 @@ export default function ProjectsSection({projects, title, fetchProjects}) {
               key={project.id}
               id={project.id}
               title={project.title}
-              summary={project.summary}/>)}
+              summary={project.summary}
+              onClickAction={() => onProjectClick(project.id)}/>)}
         </div>
       </div>
       <CreateProjectModal fetchProjects={fetchProjects}/>

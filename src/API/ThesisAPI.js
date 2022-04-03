@@ -1,10 +1,12 @@
+/* eslint-disable no-fallthrough */
+/* eslint-disable default-case */
 import axios from "axios";
 var apiUrl = "https://api.thesis.uno/api";
 
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "https://api.thesis.uno/api";
+    apiUrl = "https://localhost:44312/api";
 }
 
 export default class ThesisAPIService {
@@ -79,6 +81,26 @@ export default class ThesisAPIService {
           return { ok: false, message: response.data.Message }
     }
   }
+    
+    /*Tasks */
+    
+    static async getTasksByProjectId(id) {
+        var response = await axios.get(`${apiUrl}/Projects/${id}/tickets`);
+        return response;
+    }
+
+    static async UpdateTask(model) {
+        var response = await axios.put(`${apiUrl}/Tickets`, model);
+
+        switch(response.status) {
+            case 200: 
+                return { ok: true }
+            case 400:;
+            case 500:
+                return { ok: false, message: response.data.Message }
+          }
+    }
+  
 
   static async handleEmailToken(token) {
     var response = await axios.get(`${apiUrl}/Tokens/Email/${token}`, { validateStatus: () => true })

@@ -1,3 +1,5 @@
+import TaskBoardPage from "pages/TaskBoardPage"
+import TestPage from "pages/TestPage"
 import EmailTokenHandlerPage from "pages/EmailTokenHandlerPage"
 import SuccessfullRegistrationPage from "pages/SuccessfullRegistrationPage"
 import DepartmentIdPage from "../pages/DepartmentIdPage"
@@ -15,5 +17,7 @@ export const publicRoutes = [
     {path: 'departments/:departmentId/projects', element: (<ProjectsPage/>), exact: true},
     {path: 'login', element: (<LoginPage/>), exact: true},
     {path: 'successRegistration', element: (<SuccessfullRegistrationPage/>), exact: true},
-    {path: 'token/:token', element: (<EmailTokenHandlerPage/>), exact: true}
+    {path: 'token/:token', element: (<EmailTokenHandlerPage/>), exact: true},
+    {path: 'test', element: (<TestPage/>), exact: true},
+    {path: 'project/:projectId/taskboard', element: (<TaskBoardPage/>), exact: true}
 ]
