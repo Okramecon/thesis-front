@@ -35,6 +35,18 @@ export default class ThesisAPIService {
         var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
         return response;
     }
+    
+    /*Tasks */
+    
+    static async getTasksByProjectId(id) {
+        var response = await axios.get(`${apiUrl}/Projects/${id}/tickets`);
+        return response;
+    }
+
+    static async UpdateTask(model) {
+        var response = await axios.put(`${apiUrl}/Tickets`, model);
+        return response;
+    }
 
     /*Login*/
     static async loginWithCredentials({login, password}) {
