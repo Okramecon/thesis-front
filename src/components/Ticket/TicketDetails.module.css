@@ -15,7 +15,7 @@
 
 .detailsSection {
     width: auto;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #70aae3;
@@ -31,4 +31,12 @@
 .discussButton {
     margin: 5px;
     text-transform: initial;
+}
+
+.select {
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
 }
