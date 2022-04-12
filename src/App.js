@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 import GlobalAlert from './components/GlobalAlert';
-import Navbar from './components/navbar/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import './styles/App.css';
 
 function App() {

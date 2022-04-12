@@ -7,9 +7,8 @@ import CircularLoader from '../components/UI/CircularLoader/CircularLoader';
 const Departments = () => {
     const [departments, setDepartmnets] = useState([]);
 
-    const [fetchDepartments, isDepartmentLoading, departmentError] = useFetching(async () => {
+    const [fetchDepartments, isDepartmentLoading] = useFetching(async () => {
             const response =  await ThesisAPIService.getAllDepartments();
-            console.log(response.data);
             setDepartmnets(response.data);
       });
     

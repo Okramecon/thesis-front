@@ -31,10 +31,9 @@ function TaskBoardPage() {
   })
 
   return (
-    <div>
-        <h1>Task board</h1>
-        <TaskBoard tasks={filteredTasks}></TaskBoard>
-    </div>
+    <React.Fragment>
+        <TaskBoard tasks={filteredTasks} />
+    </React.Fragment>
   )
 }
 
