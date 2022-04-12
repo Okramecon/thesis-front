@@ -1,0 +1,34 @@
+.main {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    width: auto;
+}
+
+.title {
+    margin-top: 10px;
+    font-size: large;
+}
+
+.details {
+    margin: 5px 0;
+}
+
+.detailsSection {
+    width: auto;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #70aae3;
+    font-size: medium;
+}
+
+.detailsHead {
+    all:unset;
+    display: flex;
+    justify-content: space-between;
+}
+
+.discussButton {
+    margin: 5px;
+    text-transform: initial;
+}

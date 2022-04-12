@@ -1,0 +1,8 @@
+.feed{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* margin-right: auto;
+    margin-left: auto; */
+    background-color: aquamarine;
+}
