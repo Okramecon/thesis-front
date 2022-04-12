@@ -14,7 +14,7 @@ export const privateRoutes = [
 export const publicRoutes = [
     {path: 'departments', element: (<Departments/>), exact: true},
     {path: 'departments/:departmentId', element: (<DepartmentIdPage/>), exact: true},
-    {path: 'departments/:departmentId/projects', element: (<ProjectsPage/>), exact: true},
+    {path: 'departments/:departmentId/Projects', element: (<ProjectsPage/>), exact: true},
     {path: 'login', element: (<LoginPage/>), exact: true},
     {path: 'successRegistration', element: (<SuccessfullRegistrationPage/>), exact: true},
     {path: 'token/:token', element: (<EmailTokenHandlerPage/>), exact: true},

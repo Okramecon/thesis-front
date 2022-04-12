@@ -20,7 +20,6 @@ const ClickableCard = ({children, title, summary, onClickAction}) => {
                 {children !== undefined
                     ? children
                     :<CardContent>
-
                         <Typography gutterBottom variant="h5" component="div">
                             {title}
                         </Typography>

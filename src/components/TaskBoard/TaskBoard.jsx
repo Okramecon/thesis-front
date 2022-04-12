@@ -22,7 +22,6 @@ const TaskBoard = ({tasks}) => {
     let response = UpdateTask(task);
 
     if (response === 0) {
-      console.log("response");
       // remove task
       newMyTasks[fromColumnIndex].tasks.splice(index, 1);
       // move task

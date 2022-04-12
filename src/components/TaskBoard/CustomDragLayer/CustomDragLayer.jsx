@@ -42,7 +42,7 @@ const CustomDragLayer = () => {
   function renderItem() {
     switch (itemType) {
       case ItemTypes.CARD:
-        return <TicketCard task={item.task} />;
+        return <TicketCard task={item.task} drag/>;
       default:
         return null;
     }

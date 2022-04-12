@@ -38,7 +38,6 @@ const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
         {isOver && canDrop ? <TicketCard task={{}} empty /> : ""}
       </div>
       <div className="column__add-task-input">
-        <textarea type="text" placeholder="Type task here ..." />
         <button className="column__add-task-btn">Add Task</button>
       </div>
     </div>
