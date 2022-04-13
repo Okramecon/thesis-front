@@ -1,7 +1,11 @@
 .main {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
+    margin-right: auto;
+    margin-left: auto;
     width: auto;
+    overflow-y: auto;
+    max-height: 80vh;
+    padding-right: 10px;
 }
 
 .title {
@@ -15,7 +19,7 @@
 
 .detailsSection {
     width: auto;
-    margin: 10px 0;
+    margin: 20px 0 5px 0;
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #70aae3;
@@ -26,6 +30,11 @@
     all:unset;
     display: flex;
     justify-content: space-between;
+}
+
+.editButton {
+    margin-bottom: 10px;
+    float: right;
 }
 
 .discussButton {
