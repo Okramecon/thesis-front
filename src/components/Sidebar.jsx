@@ -27,7 +27,7 @@ const Sidebar = ({setSidebarVisible}) => {
         <Divider />
         <List>
           {['Mail'].map((text) => (
-            <ListItem button key={text}>
+            <ListItem button key={text} disabled={true}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>

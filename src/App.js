@@ -16,7 +16,7 @@ function App() {
         <BrowserRouter>
           <Navbar/>
           <div className='main'>
-            <Box style={{ flexGrow: 1, display: 'flex' }}>
+            <Box style={{ flexGrow: 1, display: 'flex', paddingLeft: '40px', paddingRight: '40px', paddingTop: '20px', paddingBottom: '20px' }}>
               <AppRouter/>
               <GlobalAlert 
                 alertOpen={alertOpen} 

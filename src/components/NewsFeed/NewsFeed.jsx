@@ -1,18 +1,14 @@
-import ClickableCard from 'components/UI/ClickableCard/ClickableCard'
+import { Box, Typography } from '@mui/material'
 import React from 'react'
-import cl from './NewsFeed.module.css'
+import NewsSection from './NewsSection'
 
-export default function NewsFeed({news}) {
-
-    const newsList = news.map(news => {
-        return (
-            <ClickableCard title={news.title} summary={news.summary}></ClickableCard>
-        )
-    })
-
+export default function NewsFeed({ departmentId }) {
   return (
-    <div className={cl.feed}>
-        {newsList}
-    </div>
+    <Box>
+      <Typography variant='h5' sx={{margin:'10px'}}> News </Typography>
+
+      <NewsSection departmentId={departmentId}/>
+
+    </Box>
   )
 }
