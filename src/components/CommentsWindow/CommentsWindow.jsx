@@ -68,10 +68,6 @@ const CommentsWindow = props => {
                 userId={'a0f4c274-7a06-4a42-85f2-c7582e864730'}
                 ticketId={props.taskId}
                 sendComment={sendComment}/>
-
-            {/*<h1 className={cl.title}>*/}
-            {/*    Discussing*/}
-            {/*</h1>*/}
         </React.Fragment>
     );
 };

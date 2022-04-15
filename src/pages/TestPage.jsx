@@ -3,6 +3,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
 
 function TestPage() {
   const [status, setStatus] = React.useState('');
@@ -12,20 +14,9 @@ function TestPage() {
   }
   return (
     <div>
-      <FormControl standart>
-        <InputLabel id="demo-simple-select-filled-label">Status</InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={handelChange}
-            label="status"
-            onChange={handelChange}
-        >
-          <MenuItem value={0}>New</MenuItem>
-          <MenuItem value={1}>Active</MenuItem>
-          <MenuItem value={2}>Completed</MenuItem>
-        </Select>
-      </FormControl>
+      <Fab aria-label="add"  sx={{ float: 'right', position: 'fixed', bottom: 40, right: 16, transform: 'translateZ(5px)' }}>
+        <AddIcon />
+      </Fab>
     </div>
   )
 }

@@ -146,7 +146,6 @@ export default class ThesisAPIService {
   }
 
   static async postNews(model) {
-    console.log(model)
     var response = await axios.post(`${apiUrl}/News/`, model, { validateStatus: () => true })
     
     switch(response.status) {
