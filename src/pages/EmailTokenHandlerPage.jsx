@@ -9,14 +9,16 @@ function EmailTokenHandlerPage() {
   const navigate = useNavigate()
   const setAlertState = useContext(AppContext)
 
-  const handleEmailToken = async (token) => {
-    var response = await ThesisAPIService.handleEmailToken(token)
-    if(response.ok) {
-      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success, duration: 15000})
-    } else {
-      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error, duration: 15000})
-    }
-    navigate('/')
+  const handleEmailToken = (token) => {
+    ThesisAPIService.handleEmailToken(token)
+    .then(response => {
+      if(response.ok) {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success, duration: 15000})
+      } else {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error, duration: 15000})
+      }
+      navigate('/')
+    })
   }
   useEffect(() => {
     handleEmailToken(token)
