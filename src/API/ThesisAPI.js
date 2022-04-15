@@ -9,9 +9,11 @@ if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://api.thesis.uno/api";
 }
 
-export default class ThesisAPIService {
-  static bearerPropertyName = 'bearer'
+const getBearerToken = () => {
+  return localStorage.getItem('bearer')
+}
 
+export default class ThesisAPIService {
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
@@ -25,7 +27,9 @@ export default class ThesisAPIService {
   }
 
   static async postDepartment(model) {
-      var response = await axios.post(`${apiUrl}/Departments/`, model)
+      var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
+        'Authorization': getBearerToken() 
+      }})
       return response
   }
 
@@ -37,7 +41,9 @@ export default class ThesisAPIService {
   }
 
   static async postProject({ title, summary, departmentId }) {
-      var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true })
+      var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
+        'Authorize': getBearerToken()
+      }})
 
       switch(response.status) {
           case 200:
@@ -90,7 +96,9 @@ export default class ThesisAPIService {
   }
 
   static async UpdateTask(model) {
-      var response = await axios.put(`${apiUrl}/Tickets`, model);
+      var response = await axios.put(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
+        'Authorization': getBearerToken() 
+      }});
 
       switch(response.status) {
           case 200: 
@@ -109,7 +117,9 @@ export default class ThesisAPIService {
   /*Comments*/
 
   static async postComment(model) {
-      var response = await axios.post(`${apiUrl}/Comments`, model);
+      var response = await axios.post(`${apiUrl}/Comments`, model, { validateStatus: () => true, headers: {
+        'Authorization': getBearerToken() 
+      }});
 
       switch(response.status) {
           case 200:
@@ -119,6 +129,8 @@ export default class ThesisAPIService {
               return { ok: false, message: response.data.Message }
       }
   }
+
+  /* TOKENS */
 
   static async handleEmailToken(token) {
     var response = await axios.get(`${apiUrl}/Tokens/Email/${token}`, { validateStatus: () => true })
@@ -146,7 +158,9 @@ export default class ThesisAPIService {
   }
 
   static async postNews(model) {
-    var response = await axios.post(`${apiUrl}/News/`, model, { validateStatus: () => true })
+    var response = await axios.post(`${apiUrl}/News/`, model, { validateStatus: () => true , headers: {
+      'Authorization': getBearerToken() 
+    }})
     
     switch(response.status) {
       case 200:

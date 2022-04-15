@@ -41,10 +41,10 @@ const CommentsWindow = props => {
                 {comments.map((comment) =>
                     <ListItem key={comment.id} alignItems="flex-start">
                         <ListItemAvatar>
-                            <Avatar alt={comment.user.userName} src="d" />
+                            <Avatar alt={comment?.user?.userName} src="d" />
                         </ListItemAvatar>
                         <ListItemText
-                            primary={comment.user.userName +"("+comment.user.firstName+" "+comment.user.lastName+")"}
+                            primary={comment.user.userName + "(" + comment.user?.firstName + " " + comment.user?.lastName + ")"}
                             secondary={
                                 <React.Fragment >
                                     <Typography
@@ -65,7 +65,6 @@ const CommentsWindow = props => {
             <TextInput
                 updateComments={setUpdate}
                 updateTrigger={update}
-                userId={'a0f4c274-7a06-4a42-85f2-c7582e864730'}
                 ticketId={props.taskId}
                 sendComment={sendComment}/>
         </React.Fragment>

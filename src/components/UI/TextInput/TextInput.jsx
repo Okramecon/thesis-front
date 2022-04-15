@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) =>
 
 export const TextInput = (props) => {
 
-    const [comment, setComment] = useState({userId:props.userId, ticketId:props.ticketId, message:''});
+    const [comment, setComment] = useState({ticketId:props.ticketId, message:''});
     const valueRef = useRef('')
 
     const send = async () => {
