@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) =>
             display: "flex",
             justifyContent: "center",
             width: "95%",
-            margin: `${theme.spacing(0)} auto`
+            margin: `10px auto`
         },
         wrapText  : {
             height: 5,
@@ -37,7 +37,6 @@ export const TextInput = (props) => {
         var response = await props.sendComment(comment);
 
             setComment({...comment, message: ""})
-        console.log(comment.message)
         props.updateComments(!props.updateTrigger);
     }
 

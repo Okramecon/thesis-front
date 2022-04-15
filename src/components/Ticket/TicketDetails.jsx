@@ -9,6 +9,8 @@ import ChevronLeftRounded from '@material-ui/icons/ChevronLeftRounded';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Fab from '@mui/material/Fab';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import SwitchToggle from "../UI/ToggleButton/SwitchToggle"
@@ -18,6 +20,7 @@ import AlertSeverities from "../../helpers/AlertSeverities";
 import {AppContext} from "../../App";
 import NativeSelect from '@mui/material/NativeSelect';
 import TestPage from "../../pages/TestPage";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function TicketDetails(props) {
 
@@ -94,19 +97,6 @@ export default function TicketDetails(props) {
                         <MenuItem sx={{width:'100%'}} value={2}>Completed</MenuItem>
                     </Select>
                 </FormControl>
-                {/*<Button*/}
-                {/*    color={'primary'}*/}
-                {/*    fullWidth className={cl.discussButton}*/}
-                {/*    onClick={() => setDiscussionOpen(!discussionOpen)}*/}
-                {/*>*/}
-                {/*    Discussion*/}
-                {/*    { discussionOpen ? <ChevronLeftRounded /> : <ChevronRightRounded />}*/}
-                {/*</Button>*/}
-
-
-                {/*/!*<Box component="span" sx={{ overflowY: 'scroll' }}>*!/*/}
-                {/*/!*    <CommentsWindow taskId={props.task.id}/>*!/*/}
-                {/*/!*</Box>*!/*/}
                 <div>
                     <CommentsWindow taskId={props.task.id}/>
                 </div>
