@@ -13,24 +13,36 @@ const getBearerToken = () => {
   return localStorage.getItem('bearer')
 }
 
+const handleResponse = (response, okMessage, badMessage) => {
+  switch(response.status) {
+    case 200:
+        return { ok: true, message: okMessage, data: response.data}
+    case 400:;
+    case 500:
+        return { ok: false, message: badMessage }
+    default: return { ok: false, message: 'Oops! Something went wrong' };
+  }
+}
+
 export default class ThesisAPIService {
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
       var response = await axios.get(`${apiUrl}/Departments`)
-      return response;
+      return handleResponse(response, 'Successfully fetched departments', 'Couldnt fetch departments')
   }
 
   static async getDepartmentById(id) {
       var response = await axios.get(`${apiUrl}/Departments/${id}`)
-      return response
+      return handleResponse(response, 'Successfully fetched department', response.data.Message)
   }
 
   static async postDepartment(model) {
-      var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
-        'Authorization': getBearerToken() 
-      }})
-      return response
+    var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
+      'Authorization': getBearerToken() 
+    }})
+    
+    return handleResponse(response, 'Successfully created department!', response.data.Message)
   }
 
   /* PROJECTS */
@@ -41,58 +53,45 @@ export default class ThesisAPIService {
   }
 
   static async postProject({ title, summary, departmentId }) {
-      var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
-        'Authorize': getBearerToken()
-      }})
-
-      switch(response.status) {
-          case 200:
-              return { ok: true, message: "Successfully created project!"}
-          case 400:;
-          case 500:
-              return { ok: false, message: response.data.Message }
-      }
+    var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
+      'Authorize': getBearerToken()
+    }})
+    return handleResponse(response, 'Successfully created project!', response.data.Message)
   }
 
   /* LOGIN */
   
   static async loginWithCredentials({login, password}) {
-      var response = await axios({
-          method: 'post',
-          url: `${apiUrl}/Auth/Login`,
-          data: {
-              userName: login,
-              password: password
-          },
-          validateStatus: () => true
-      })
-
-      switch(response.status) {
-          case 200:
-              return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
-          case 400:;
-          case 500:
-              return { ok: false, message: response.data.Message }
-      }
+    var response = await axios({
+        method: 'post',
+        url: `${apiUrl}/Auth/Login`,
+        data: {
+            userName: login,
+            password: password
+        },
+        validateStatus: () => true
+    })
+    
+    switch(response.status) {
+        case 200:
+            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+        case 400:;
+        case 500:
+            return { ok: false, message: response.data.Message }
+        default: return { ok: false, message: 'Oops! Something went wrong' };
+    }
   }
 
   static async registerNewUser({email, password}) {
-      var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password}, { validateStatus: () => true })
-
-      switch(response.status) {
-          case 200:
-              return { ok: true }
-          case 400:;
-          case 500:
-              return { ok: false, message: response.data.Message }
-      }
+    var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password}, { validateStatus: () => true })
+    return handleResponse(response, 'Confirmation code sent to your email!', response.data.Message)
   }
   
   /*Tasks */
   
   static async getTasksByProjectId(id) {
       var response = await axios.get(`${apiUrl}/Projects/${id}/tickets`);
-      return response;
+      return handleResponse(response, 'Successfully fetched tasks!', response.data.Message)
   }
 
   static async UpdateTask(model) {
@@ -100,18 +99,12 @@ export default class ThesisAPIService {
         'Authorization': getBearerToken() 
       }});
 
-      switch(response.status) {
-          case 200: 
-              return { ok: true }
-          case 400:;
-          case 500:
-              return { ok: false, message: response.data.Message }
-      }
+      return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }
 
   static async getTasksComments(id) {
       var response = await axios.get(`${apiUrl}/Tickets/${id}/comments`);
-      return response;
+      return handleResponse(response, 'Successfully fetched tasks!', response.data.Message)
   }
 
   /*Comments*/
@@ -121,26 +114,15 @@ export default class ThesisAPIService {
         'Authorization': getBearerToken() 
       }});
 
-      switch(response.status) {
-          case 200:
-              return { ok: true }
-          case 400:;
-          case 500:
-              return { ok: false, message: response.data.Message }
-      }
+      return handleResponse(response, 'Successfully posted comment!', response.data.Message)
   }
 
   /* TOKENS */
 
   static async handleEmailToken(token) {
     var response = await axios.get(`${apiUrl}/Tokens/Email/${token}`, { validateStatus: () => true })
-    switch(response.status) {
-      case 200:
-          return { ok: true, message: 'Successfully confirmed email!' }
-      case 400:;
-      case 500:
-          return { ok: false, message: response.data.Message }
-    }
+
+    return handleResponse(response, 'Successfully confirmed email!', response.data.Message)
   }
 
   /* NEWS */
@@ -148,13 +130,7 @@ export default class ThesisAPIService {
   static async getNewsByDepartmentId(departmentId) {
     var response = await axios.get(`${apiUrl}/News/byDepartmentId?departmentId=${departmentId}`, { validateStatus: () => true })
     
-    switch(response.status) {
-      case 200:
-          return { ok: true, data: response.data }
-      case 400:;
-      case 500:
-          return { ok: false, message: response.data.Message }
-    }
+    return handleResponse(response, 'Successfully fetched department!', response.data.Message)
   }
 
   static async postNews(model) {
@@ -162,12 +138,6 @@ export default class ThesisAPIService {
       'Authorization': getBearerToken() 
     }})
     
-    switch(response.status) {
-      case 200:
-          return { ok: true, message: 'Successfully created news!' }
-      case 400:;
-      case 500:
-          return { ok: false, message: response.data.Message }
-    }
+    return handleResponse(response, 'Successfully posted news!', response.data.Message)
   }
 }

@@ -45,26 +45,27 @@ function RegisterForm({ closeModal }) {
     }
 
     if(!isValid) {
-      setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error})
+      setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error, duration: 4000})
     }
 
     return isValid
   }
 
-  const register = async () => {
-    // if(!isRegistrationDataValid(email, password, passwordConfirmation)) {
-    //   return
-    // }
-
-    var response = await ThesisAPIService.registerNewUser({ email, password })
-
-    if(response.ok) {
-      setAlertState({alertOpen: true, message: 'Confirmation code sent to your email', severity: AlertSeverities.success, duration: 6000})
-      closeModal();
-      navigate("/successRegistration")
-    } else {
-      setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
+  const register = () => {
+    if(!isRegistrationDataValid(email, password, passwordConfirmation)) {
+      return
     }
+
+    ThesisAPIService.registerNewUser({ email, password })
+    .then(response => {
+      if(response.ok) {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success, duration: 6000})
+        closeModal();
+        navigate("/successRegistration")
+      } else {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
+      }
+    })
   }
 
   return (
@@ -90,7 +91,7 @@ function RegisterForm({ closeModal }) {
         value={passwordConfirmation}
         onChange={handlePasswordConfirmationChange}
       />
-      <Button variant="contained" onClick={async () => await register()}>Register</Button>
+      <Button variant="contained" onClick={register}>Register</Button>
     </div>
   )
 }

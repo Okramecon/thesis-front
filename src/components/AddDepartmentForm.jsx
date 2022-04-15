@@ -9,10 +9,6 @@ const AddDepartmentForm = ({closeModal, fetchDepartments}) => {
     const setAlertState = useContext(AppContext)
     const [department, setDepartment] = useState({title : "", summary: ""})
 
-    const postDepartment = async (department) => {
-        const response = await ThesisAPIService.postDepartment(department)
-    }
-
     const _handleTitleTextFieldChange = function(e) {
         setDepartment({...department, title:e.target.value})
     }
@@ -20,16 +16,17 @@ const AddDepartmentForm = ({closeModal, fetchDepartments}) => {
         setDepartment({...department, summary:e.target.value})
     }
 
-    const handleCreate = async () => {
-      try { 
-        await postDepartment(department)
-        setAlertState({alertOpen: true, message: 'Department created', severity: AlertSeverities.success})
-      } catch(e) {
-        setAlertState({alertOpen: true, message: 'Department not created because of error', severity: AlertSeverities.error})
-      } finally {
-        await fetchDepartments()
-        closeModal()
-      }
+    const handleCreate = () => { 
+      ThesisAPIService.postDepartment(department)
+      .then(response => {
+        if(response.ok) {
+          setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success})
+          fetchDepartments()
+          closeModal()
+        } else {
+          setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
+        }
+      })
     }
 
     return (

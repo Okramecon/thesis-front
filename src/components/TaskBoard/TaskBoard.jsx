@@ -30,15 +30,16 @@ const TaskBoard = ({tasks}) => {
     }
   };
 
-  const UpdateTask = async (task) => {
-    const response = await ThesisAPIService.UpdateTask(task);
-
-    if(response.ok) {
-      setAlertState({ alertOpen: true, message: 'Successfully saved changes!', severity: AlertSeverities.success})
-      return 0;
-    }
-    setAlertState({ alertOpen: true, message: "Error. Changes has not saved!", severity: AlertSeverities.error})
-    return -1;
+  const UpdateTask = (task) => {
+    ThesisAPIService.UpdateTask(task)
+    .then(response => {
+      if(response.ok) {
+        setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.success})
+        return 0;
+      }
+      setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})
+      return -1;
+    })
   }
 
   const columns = myTasks.map((tasks, columnIndex) => {

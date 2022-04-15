@@ -4,23 +4,23 @@ import { TaskStatusEnum } from 'helpers/EnumHelpers';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
-
 function TaskBoardPage() {
-
   const params = useParams();
-  const [tickets, settickets] = useState([]);
+  const [tickets, settickets] = useState([])
 
-  const fetchTasks = async () =>  {
-    const response =  await ThesisAPIService.getTasksByProjectId(params.projectId);
-    settickets(response.data);
+  const fetchTasks = () =>  {
+    ThesisAPIService.getTasksByProjectId(params.projectId)
+    .then(response => {
+      settickets(response.data)
+    })
   }
   
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetchTasks()
+  }, [])
 
   const columnsIds = [0, 1, 2]
-  let filteredTasks = [];
+  let filteredTasks = []
  
   columnsIds.map(id => {
     const tasks = tickets.filter(e => e.status === id) ?? [];
@@ -32,7 +32,7 @@ function TaskBoardPage() {
 
   return (
     <React.Fragment>
-        <TaskBoard tasks={filteredTasks} />
+      <TaskBoard tasks={filteredTasks} />
     </React.Fragment>
   )
 }

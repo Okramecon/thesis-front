@@ -6,70 +6,66 @@ import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) =>
-    createStyles({
-        wrapForm : {
-            display: "flex",
-            justifyContent: "center",
-            width: "95%",
-            margin: `10px auto`
-        },
-        wrapText  : {
-            height: 5,
-            width: "100%"
-        },
-        button: {
-            //margin: theme.spacing(1),
-            height: "26px",
-            marginLeft: "5px"
-        },
-    })
+  createStyles({
+    wrapForm : {
+      display: "flex",
+      justifyContent: "center",
+      width: "95%",
+      margin: `10px auto`
+    },
+    wrapText  : {
+      height: 5,
+      width: "100%"
+    },
+    button: {
+      //margin: theme.spacing(1),
+      height: "26px",
+      marginLeft: "5px"
+    },
+  })
 );
 
+export const TextInput = ({ sendComment, ticketId }) => {
+  const [comment, setComment] = useState({ticketId:ticketId, message:''});
+  const valueRef = useRef('')
 
-export const TextInput = (props) => {
+  const send = () => {
+    if (isEmptyOrSpaces(comment.message))
+      return;
 
-    const [comment, setComment] = useState({ticketId:props.ticketId, message:''});
-    const valueRef = useRef('')
+    sendComment(comment);
+  }
 
-    const send = async () => {
-        if (isEmptyOrSpaces(comment.message))
-            return;
-        var response = await props.sendComment(comment);
+  function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+  }
 
-            setComment({...comment, message: ""})
-        props.updateComments(!props.updateTrigger);
-    }
-
-    function isEmptyOrSpaces(str){
-        return str === null || str.match(/^ *$/) !== null;
-    }
-
-    const classes = useStyles();
-    return (
-        <>
-            <form className={classes.wrapForm}  noValidate autoComplete="off">
-                <TextField
-                    id="outlined-basic"
-                    label=""
-                    className={classes.wrapText}
-                    InputProps={{ classes: { input: classes.wrapText } }}
-                    size='small'
-                    inputRef={valueRef}
-                    variant="outlined"
-                    value={comment.message}
-                    onChange={(e)=>setComment({...comment, message: e.target.value})}
-                    onKeyPress={(ev) => {
-                        if (ev.key === 'Enter') {
-                            send();
-                            ev.preventDefault();
-                        }
-                    }}
-                    //margin="normal"
-                />
-                <Button variant="contained" color="primary" className={classes.button} onClick={async () => await send()}>
-                    <SendIcon />
-                </Button>
-            </form>
-        </>
-    )
+  const classes = useStyles();
+  return (
+    <>
+      <form className={classes.wrapForm}  noValidate autoComplete="off">
+        <TextField
+          id="outlined-basic"
+          label=""
+          className={classes.wrapText}
+          InputProps={{ classes: { input: classes.wrapText } }}
+          size='small'
+          inputRef={valueRef}
+          variant="outlined"
+          value={comment.message}
+          onChange={(e)=>setComment({...comment, message: e.target.value})}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              send();
+              ev.preventDefault();
+            }
+          }}
+          //margin="normal"
+        />
+        <Button variant="contained" color="primary" className={classes.button} onClick={send}>
+          <SendIcon />
+        </Button>
+      </form>
+    </>
+  )
 }

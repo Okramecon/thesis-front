@@ -13,66 +13,72 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import cl from './CommentsWindow.module.css'
+import './CommentsWindow.module.css'
 
-const CommentsWindow = props => {
+const CommentsWindow = ({ taskId }) => {
+  const [comments, setComments] = useState([])
+  const setAlertState = useContext(AppContext);
 
-    const [comments, setComments] = useState([])
-    const [update, setUpdate] = useState(false)
-    const setAlertState = useContext(AppContext);
+  const fetchTaskComments = () =>  {
+    ThesisAPIService.getTasksComments(taskId)
+    .then(response => {
+      setComments(response.data)
+    })
+  }
 
-    const fetchTasks = async () =>  {
-        const response =  await ThesisAPIService.getTasksComments(props.taskId);
-        setComments(response.data);
-    }
+  useEffect(() => {
+    fetchTaskComments();
+  }, []);
 
-    useEffect(() => {
-        fetchTasks();
-    }, [update]);
+  const sendComment = (comment) => {
+    ThesisAPIService.postComment(comment)
+    .then(response => {
+      if(response.ok) {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success, duration: 6000})
+        fetchTaskComments();
+      } else {
+        setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
+      }
+    })
+  }
 
-    const sendComment = async (comment) => {
-        const response =  await ThesisAPIService.postComment(comment);
-    }
-
-    return (
-        <React.Fragment>
-            <Divider sx={{marginTop:"30px"}}/>
-            <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                {comments.map((comment) =>
-                    <ListItem key={comment.id} alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar alt={comment?.user?.userName} src="d" />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={comment.user.userName + "(" + comment.user?.firstName + " " + comment.user?.lastName + ")"}
-                            secondary={
-                                <React.Fragment >
-                                    <Typography
-                                        sx={{ display: 'inline', wordWrap:'break-Word'}}
-                                        component="span"
-                                        variant="body2"
-                                        color="text.primary"
-                                    >
-                                        {comment.message}
-                                    </Typography>
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
-                )}
-            </List>
-            <Divider sx={{marginBottom:'5px'}}/>
-            <TextInput
-                updateComments={setUpdate}
-                updateTrigger={update}
-                ticketId={props.taskId}
-                sendComment={sendComment}/>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <Divider sx={{marginTop:"30px"}}/>
+      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        {comments.map((comment) =>
+          <ListItem key={comment.id} alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt={comment?.user?.userName} src="d" />
+            </ListItemAvatar>
+            <ListItemText
+              primary={comment.user.userName + "(" + comment.user?.firstName + " " + comment.user?.lastName + ")"}
+              secondary={
+                <React.Fragment >
+                  <Typography
+                    sx={{ display: 'inline', wordWrap:'break-Word'}}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    {comment.message}
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        )}
+      </List>
+      <Divider sx={{marginBottom:'5px'}}/>
+      <TextInput
+        ticketId={taskId}
+        sendComment={sendComment}/>
+    </React.Fragment>
+  );
 };
 
 CommentsWindow.propTypes = {
-    taskId: PropTypes.number
+  taskId: PropTypes.number
 };
 
 export default CommentsWindow;
