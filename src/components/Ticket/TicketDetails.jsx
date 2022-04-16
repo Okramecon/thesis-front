@@ -29,24 +29,17 @@ export default function TicketDetails(props) {
   const setAlertState = useContext(AppContext);
 
   const handleStatusChange = (event) => {
-    if(UpdateTask(props.task)) {
-      setStatus(event.target.value);
-      props.task.status = event.target.value;
-    }
-  };
-
-  const UpdateTask = (task) => {
-    ThesisAPIService.UpdateTask(task)
+    ThesisAPIService.UpdateTask(props.task)
     .then(response => {
       if(response.ok) {
+        setStatus(event.target.value);
+        props.task.status = event.target.value;
         setAlertState({ alertOpen: true, message: 'Successfully saved changes!', severity: AlertSeverities.success})
-        return true
+        return
       } 
       setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})
-      return false
     })
-    return false
-  }
+  };
 
   let discussionWindow;
   if (discussionOpen) {

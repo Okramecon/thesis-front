@@ -1,5 +1,6 @@
 import ThesisAPIService from 'API/ThesisAPI';
 import TaskBoard from 'components/TaskBoard/TaskBoard';
+import CreateTicketModal from 'components/Ticket/CreateTicketModal';
 import { TaskStatusEnum } from 'helpers/EnumHelpers';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { useParams } from 'react-router-dom';
 function TaskBoardPage() {
   const params = useParams();
   const [tickets, settickets] = useState([])
+  const [board, setBoard] = useState()
 
   const fetchTasks = () =>  {
     ThesisAPIService.getTasksByProjectId(params.projectId)
@@ -14,13 +16,23 @@ function TaskBoardPage() {
       settickets(response.data)
     })
   }
-  
+
+  const fetchBoard = () =>  {
+    ThesisAPIService.getBoardByProjectId(params.projectId)
+    .then(response => {
+      setBoard(response.data)
+    })
+  }
+
   useEffect(() => {
     fetchTasks()
+    fetchBoard()
   }, [])
 
   const columnsIds = [0, 1, 2]
   let filteredTasks = []
+
+  const boardId = board?.id
  
   columnsIds.map(id => {
     const tasks = tickets.filter(e => e.status === id) ?? [];
@@ -33,6 +45,7 @@ function TaskBoardPage() {
   return (
     <React.Fragment>
       <TaskBoard tasks={filteredTasks} />
+      <CreateTicketModal fetchTickets={fetchTasks} boardId={boardId}/>
     </React.Fragment>
   )
 }
