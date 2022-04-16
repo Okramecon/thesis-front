@@ -25,6 +25,7 @@ function AccountPopup() {
     localStorage.removeItem('bearer');
     localStorage.removeItem('username');
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('expires')
     setAlertState({ alertOpen: true, message: 'Successfully logged out!', severity: AlertSeverities.info})
     navigate('/')
   }

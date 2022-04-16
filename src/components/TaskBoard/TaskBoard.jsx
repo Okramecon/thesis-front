@@ -16,31 +16,23 @@ const TaskBoard = ({tasks}) => {
   const handleMoveMyTask = (from, to) => {
     const { task, columnIndex: fromColumnIndex, index } = from;
     const { columnIndex: toColumnIndex } = to;
-
     const newMyTasks = [...myTasks];
-    task.status = toColumnIndex;
-    let response = UpdateTask(task);
 
-    if (response === 0) {
-      // remove task
-      newMyTasks[fromColumnIndex].tasks.splice(index, 1);
-      // move task
-      newMyTasks[toColumnIndex].tasks.push(task);
-      moveMyTask(newMyTasks);
-    }
-  };
-
-  const UpdateTask = (task) => {
-    ThesisAPIService.UpdateTask(task)
+    ThesisAPIService.UpdateTask({ ...task, status: toColumnIndex })
     .then(response => {
       if(response.ok) {
+        task.status = toColumnIndex
         setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.success})
-        return 0;
+        // remove task
+        newMyTasks[fromColumnIndex].tasks.splice(index, 1);
+        // move task
+        newMyTasks[toColumnIndex].tasks.push(task);
+        moveMyTask(newMyTasks);
+        return;
       }
       setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})
-      return -1;
     })
-  }
+  };
 
   const columns = myTasks.map((tasks, columnIndex) => {
     const propsToColumn = { tasks, columnIndex, handleMoveMyTask };

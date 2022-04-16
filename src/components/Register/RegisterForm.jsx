@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material'
+import { Button, Stack, TextField } from '@mui/material'
 import ThesisAPIService from 'API/ThesisAPI'
 import { AppContext } from 'App'
 import AlertSeverities from 'helpers/AlertSeverities'
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 function RegisterForm({ closeModal }) {
   const [registerData, setRegisterData] = useState({})
-  const { email, password, passwordConfirmation } = registerData
+  const { email, password, passwordConfirmation, firstName, lastName } = registerData
   const setAlertState = useContext(AppContext)
   const navigate = useNavigate();
 
@@ -19,6 +19,12 @@ function RegisterForm({ closeModal }) {
   }
   const handlePasswordConfirmationChange = function(e) {
     setRegisterData({...registerData, passwordConfirmation:e.target.value})
+  }
+  const handleFirstNameChange = function(e) {
+    setRegisterData({...registerData, firstName:e.target.value})
+  }
+  const handleLastNameChange = function(e) {
+    setRegisterData({...registerData, lastName:e.target.value})
   }
 
   const isRegistrationDataValid = (email, password, passwordConfirmation) => {
@@ -44,6 +50,16 @@ function RegisterForm({ closeModal }) {
       isValid = false
     }
 
+    if(!firstName) {
+      errorMessage = 'First name field must filled'
+      isValid = false
+    }
+
+    if(!lastName) {
+      errorMessage = 'Last name field must filled'
+      isValid = false
+    }
+
     if(!isValid) {
       setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error, duration: 4000})
     }
@@ -56,7 +72,7 @@ function RegisterForm({ closeModal }) {
       return
     }
 
-    ThesisAPIService.registerNewUser({ email, password })
+    ThesisAPIService.registerNewUser(registerData)
     .then(response => {
       if(response.ok) {
         setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success, duration: 6000})
@@ -69,7 +85,7 @@ function RegisterForm({ closeModal }) {
   }
 
   return (
-    <div>
+    <Stack spacing={1}>
       <TextField
         required
         id="1"
@@ -78,21 +94,37 @@ function RegisterForm({ closeModal }) {
         onChange={handleEmailChange}
       />
       <TextField
+        required
         id="2"
+        label="first name"
+        value={firstName}
+        onChange={handleFirstNameChange}
+      />
+      <TextField
+        required
+        id="3"
+        label="last name"
+        value={lastName}
+        onChange={handleLastNameChange}
+      />
+      <TextField
+      required
+        id="4"
         label="password"
         type="password"
         value={password}
         onChange={handlePasswordChange}
       />
       <TextField
-        id="3"
+        required
+        id="5"
         label="confirm password"
         type="password"
         value={passwordConfirmation}
         onChange={handlePasswordConfirmationChange}
       />
       <Button variant="contained" onClick={register}>Register</Button>
-    </div>
+    </Stack>
   )
 }
 
