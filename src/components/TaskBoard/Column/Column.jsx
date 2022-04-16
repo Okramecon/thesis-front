@@ -4,6 +4,7 @@ import "./Column.styles.scss";
 import DraggableCard from "../DraggableCard/DraggableCard";
 import { ItemTypes } from "../Constants";
 import TicketCard from "../Card/TicketCard";
+import { Button } from "@mui/material";
 
 const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
   const cards = tasks.map((task, index) => {
@@ -36,9 +37,6 @@ const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
       <div className="column__cards">
         {cards}
         {isOver && canDrop ? <TicketCard task={{}} empty /> : ""}
-      </div>
-      <div className="column__add-task-input">
-        <button className="column__add-task-btn">Add Task</button>
       </div>
     </div>
   );
