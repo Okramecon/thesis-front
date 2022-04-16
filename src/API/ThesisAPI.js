@@ -87,8 +87,8 @@ export default class ThesisAPIService {
     }
   }
 
-  static async registerNewUser({email, password}) {
-    var response = await axios.post(`${apiUrl}/Users`, { userName: email, password: password}, { validateStatus: () => true })
+  static async registerNewUser(registerData) {
+    var response = await axios.post(`${apiUrl}/Users`, { ...registerData, userName: registerData.email }, { validateStatus: () => true })
     return handleResponse(response, 'Confirmation code sent to your email!', response.data.Message)
   }
   
