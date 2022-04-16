@@ -16,11 +16,16 @@ const getBearerToken = () => {
 const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
-        return { ok: true, message: okMessage, data: response.data}
+      return { ok: true, message: okMessage, data: response.data};
     case 400:;
     case 500:
-        return { ok: false, message: badMessage }
-    default: return { ok: false, message: 'Oops! Something went wrong' };
+      return { ok: false, message: badMessage };
+    case 401: 
+      return { ok: false, message: 'You are not logged in!' };
+    case 403: 
+      return { ok: false, message: 'You are not allowed to do that!' };
+    default: 
+      return { ok: false, message: 'Oops! Something went wrong' };
   }
 }
 

@@ -23,88 +23,90 @@ import TestPage from "../../pages/TestPage";
 import AddIcon from "@mui/icons-material/Add";
 
 export default function TicketDetails(props) {
+  const [toggled, setToggled] = React.useState(false);
+  const [discussionOpen, setDiscussionOpen] = React.useState(false);
+  const [status, setStatus] = React.useState(props.task.status);
+  const setAlertState = useContext(AppContext);
 
-    const [toggled, setToggled] = React.useState(false);
-    const [discussionOpen, setDiscussionOpen] = React.useState(false);
-    const [status, setStatus] = React.useState(props.task.status);
-    const setAlertState = useContext(AppContext);
-
-    const handleStatusChange = (event) => {
-        setStatus(event.target.value);
-        props.task.status = event.target.value;
-        UpdateTask(props.task);
-    };
-
-    const UpdateTask = async (task) => {
-        const response = await ThesisAPIService.UpdateTask(task);
-
-         if(response.ok) {
-             setAlertState({ alertOpen: true, message: 'Successfully saved changes!', severity: AlertSeverities.success})
-             return 0;
-         }
-         setAlertState({ alertOpen: true, message: "Error. Changes has not saved!", severity: AlertSeverities.error})
-         return -1;
+  const handleStatusChange = (event) => {
+    if(UpdateTask(props.task)) {
+      setStatus(event.target.value);
+      props.task.status = event.target.value;
     }
+  };
 
-    let discussionWindow;
-    if (discussionOpen) {
-        discussionWindow = <CommentsWindow taskId={props.task.id}/>
-    }
+  const UpdateTask = (task) => {
+    ThesisAPIService.UpdateTask(task)
+    .then(response => {
+      if(response.ok) {
+        setAlertState({ alertOpen: true, message: 'Successfully saved changes!', severity: AlertSeverities.success})
+        return true
+      } 
+      setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})
+      return false
+    })
+    return false
+  }
 
-    let details;
-    if (toggled) {
-        details = <div className={cl.details}>{props.task.details}</div>
-    }
+  let discussionWindow;
+  if (discussionOpen) {
+    discussionWindow = <CommentsWindow taskId={props.task.id}/>
+  }
 
-    return (
-        <React.Fragment>
-            <div className={cl.main}>
-                <h1 className={cl.title}>[Id: {props.task.id}] {props.task.title}</h1>
-                <div className={cl.detailsSection}>
-                    <div className={cl.detailsHead}>
-                        <div>Details</div>
-                        <SwitchToggle
-                            button
-                            toggled={toggled}
-                            onClick={() => setToggled(!toggled)}
-                        />
-                    </div>
-                    {details}
-                </div>
-                <div className={cl.editButton}>
-                    <IconButton
-                        size="large"
-                        edge="end"
-                        color="inherit"
-                        aria-label="edit"
-                        // onClick={() => {}} /> TODO edit modal
-                    >
-                        <EditIcon />
-                    </IconButton>
-                </div>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-filled-label">Status</InputLabel>
-                    <Select
-                        sx={{paddingLeft:"10px", paddingTop:"5px"}}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={status}
-                        label="Status"
-                        onChange={handleStatusChange}
-                    >
-                        <MenuItem sx={{width:'100%'}} value={0}>New</MenuItem>
-                        <MenuItem sx={{width:'100%'}} value={1}>Active</MenuItem>
-                        <MenuItem sx={{width:'100%'}} value={2}>Completed</MenuItem>
-                    </Select>
-                </FormControl>
-                <div>
-                    <CommentsWindow taskId={props.task.id}/>
-                </div>
-            </div>
-        </React.Fragment>
-    )
+  let details;
+  if (toggled) {
+    details = <div className={cl.details}>{props.task.details}</div>
+  }
+
+  return (
+    <React.Fragment>
+      <div className={cl.main}>
+        <h1 className={cl.title}>[Id: {props.task.id}] {props.task.title}</h1>
+        <div className={cl.detailsSection}>
+          <div className={cl.detailsHead}>
+            <div>Details</div>
+            <SwitchToggle
+              button
+              toggled={toggled}
+              onClick={() => setToggled(!toggled)}
+            />
+          </div>
+          {details}
+        </div>
+        <div className={cl.editButton}>
+          <IconButton
+            size="large"
+            edge="end"
+            color="inherit"
+            aria-label="edit"
+            // onClick={() => {}} /> TODO edit modal
+          >
+            <EditIcon />
+          </IconButton>
+        </div>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-filled-label">Status</InputLabel>
+          <Select
+            sx={{paddingLeft:"10px", paddingTop:"5px"}}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={status}
+            label="Status"
+            onChange={handleStatusChange}
+          >
+            <MenuItem sx={{width:'100%'}} value={0}>New</MenuItem>
+            <MenuItem sx={{width:'100%'}} value={1}>Active</MenuItem>
+            <MenuItem sx={{width:'100%'}} value={2}>Completed</MenuItem>
+          </Select>
+        </FormControl>
+        <div>
+          <CommentsWindow taskId={props.task.id}/>
+        </div>
+      </div>
+    </React.Fragment>
+  )
 }
 
 TicketDetails.propTypes = {
-    task: PropTypes.object
+  task: PropTypes.object
 }
