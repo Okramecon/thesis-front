@@ -134,6 +134,19 @@ export default class ThesisAPIService {
     return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }
 
+  static async createTicket(model) {
+    var check = checkBearerToken()
+    if(check) {
+      return check
+    }
+
+    var response = await axios.post(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
+      'Authorization': getBearerToken() 
+    }});
+
+    return handleResponse(response, 'Successfully saved changes!', response.data.Message)
+  }
+
   static async getTasksComments(id) {
     var response = await axios.get(`${apiUrl}/Tickets/${id}/comments`);
     return handleResponse(response, 'Successfully fetched tasks!', response.data.Message)
@@ -181,5 +194,13 @@ export default class ThesisAPIService {
     }})
     
     return handleResponse(response, 'Successfully posted news!', response.data.Message)
+  }
+
+  /* BOARD */
+
+  static async getBoardByProjectId(projectId) {
+    var response = await axios.get(`${apiUrl}/Boards/byProjectId?projectId=${projectId}`, { validateStatus: () => true })
+    
+    return handleResponse(response, 'Successfully fetched board!', response.data.Message)
   }
 }

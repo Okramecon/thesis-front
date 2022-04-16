@@ -1,7 +1,7 @@
 import { Backdrop, Box, Fab, Fade, Modal, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import AddNewsForm from './AddNewsForm';
+import AddTicketForm from './AddTicketForm';
 
 const style = {
   position: 'absolute',
@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-function CreateTicketModal({fetchTickets}) {
+function CreateTicketModal({fetchTickets, boardId}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -39,7 +39,7 @@ function CreateTicketModal({fetchTickets}) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <AddTicketForm closeModal={() => setOpen(false)} fetchTickets={fetchTickets}/>
+            <AddTicketForm closeModal={() => setOpen(false)} fetchTickets={fetchTickets} boardId={boardId}/>
           </Box>
         </Fade>
       </Modal>

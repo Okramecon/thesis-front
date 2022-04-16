@@ -1,27 +1,27 @@
+import { Button, Stack, TextField } from '@mui/material';
+import ThesisAPIService from 'API/ThesisAPI';
+import { AppContext } from 'App';
+import AlertSeverities from 'helpers/AlertSeverities';
 import React, { useContext, useState } from 'react';
-import TextField from '@mui/material/TextField';
-import ThesisAPIService from '../API/ThesisAPI';
-import Button from '@mui/material/Button';
-import { AppContext } from '../App';
-import AlertSeverities from '../helpers/AlertSeverities';
 
-const AddTicketForm = ({closeModal, fetchDepartments}) => {
+
+const AddTicketForm = ({closeModal, fetchTickets, boardId}) => {
   const setAlertState = useContext(AppContext)
-  const [department, setDepartment] = useState({title : "", summary: ""})
+  const [ticket, setTicket] = useState({title : "", details: "", status: 0, boardId: boardId})
 
   const _handleTitleTextFieldChange = function(e) {
-      setDepartment({...department, title:e.target.value})
+      setTicket({...ticket, title:e.target.value})
   }
-  const _handleSummaryTextFieldChange = function(e) {
-      setDepartment({...department, summary:e.target.value})
+  const _handleDetailsTextFieldChange = function(e) {
+      setTicket({...ticket, details:e.target.value})
   }
 
   const handleCreate = () => { 
-    ThesisAPIService.postDepartment(department)
+    ThesisAPIService.createTicket(ticket)
     .then(response => {
       if(response.ok) {
         setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.success})
-        fetchDepartments()
+        fetchTickets()
         closeModal()
       } else {
         setAlertState({alertOpen: true, message: response.message, severity: AlertSeverities.error})
@@ -30,24 +30,24 @@ const AddTicketForm = ({closeModal, fetchDepartments}) => {
   }
 
   return (
-    <div className='departmentForm'>  
+    <Stack spacing={1}>  
       <TextField
         required
         id="1"
         label="Name"
-        value={department.title}
+        value={ticket.title}
         onChange={_handleTitleTextFieldChange}
       />
       <TextField
         id="2"
-        label="Summary"
+        label="Details"
         multiline
         rows={4}
-        value={department.summary}
-        onChange={_handleSummaryTextFieldChange}
+        value={ticket.details}
+        onChange={_handleDetailsTextFieldChange}
       />
       <Button variant="contained" onClick={handleCreate}>Add</Button>
-    </div>
+    </Stack>
   );
 };
 
