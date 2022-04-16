@@ -25,6 +25,7 @@ function LoginPage() {
           localStorage.setItem('bearer', 'Bearer ' + response.bearer)
           localStorage.setItem('username', response.userName)
           localStorage.setItem('loggedIn', true)
+          localStorage.setItem('expires', response.accessTokenExpireDate)
           setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
           navigate('/')
           return
