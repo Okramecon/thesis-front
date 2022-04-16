@@ -9,14 +9,6 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title, fetchDepar
     if (isDepartmentLoading)
         return(<div></div>);
 
-    if (!departments.length) {
-        return (
-        <h1 style={{textAlign: 'center'}}>
-            Departments not found!
-        </h1>
-        )
-    }
-
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
