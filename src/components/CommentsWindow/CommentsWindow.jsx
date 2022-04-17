@@ -1,19 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
-import ChatMsg from '@mui-treasury/components/chatMsg/ChatMsg';
 import PropTypes from 'prop-types';
 import ThesisAPIService from "../../API/ThesisAPI";
 import AlertSeverities from "../../helpers/AlertSeverities";
 import {AppContext} from "../../App";
-import ClickableCard from "../UI/ClickableCard/ClickableCard";
 import {TextInput} from "../UI/TextInput/TextInput";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import './CommentsWindow.module.css'
 
 const CommentsWindow = ({ taskId }) => {
   const [comments, setComments] = useState([])
@@ -22,7 +18,7 @@ const CommentsWindow = ({ taskId }) => {
   const fetchTaskComments = () =>  {
     ThesisAPIService.getTasksComments(taskId)
     .then(response => {
-      setComments(response.data)
+      setComments(response.data.reverse())
     })
   }
 
@@ -44,7 +40,9 @@ const CommentsWindow = ({ taskId }) => {
 
   return (
     <React.Fragment>
-      <Divider sx={{marginTop:"30px"}}/>
+      <TextInput
+        ticketId={taskId}
+        sendComment={sendComment}/>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((comment) =>
           <ListItem key={comment.id} alignItems="flex-start">
@@ -69,10 +67,6 @@ const CommentsWindow = ({ taskId }) => {
           </ListItem>
         )}
       </List>
-      <Divider sx={{marginBottom:'5px'}}/>
-      <TextInput
-        ticketId={taskId}
-        sendComment={sendComment}/>
     </React.Fragment>
   );
 };

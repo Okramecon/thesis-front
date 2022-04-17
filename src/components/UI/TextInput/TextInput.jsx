@@ -60,7 +60,6 @@ export const TextInput = ({ sendComment, ticketId }) => {
               ev.preventDefault();
             }
           }}
-          //margin="normal"
         />
         <Button variant="contained" color="primary" className={classes.button} onClick={send}>
           <SendIcon />

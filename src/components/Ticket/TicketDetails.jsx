@@ -1,16 +1,9 @@
 import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
-import cl from './TicketDetails.module.css'
 import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import ChevronRightRounded from '@material-ui/icons/ChevronRightRounded';
-import ChevronLeftRounded from '@material-ui/icons/ChevronLeftRounded';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Fab from '@mui/material/Fab';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import SwitchToggle from "../UI/ToggleButton/SwitchToggle"
@@ -18,13 +11,11 @@ import CommentsWindow from "../CommentsWindow/CommentsWindow";
 import ThesisAPIService from "../../API/ThesisAPI";
 import AlertSeverities from "../../helpers/AlertSeverities";
 import {AppContext} from "../../App";
-import NativeSelect from '@mui/material/NativeSelect';
-import TestPage from "../../pages/TestPage";
-import AddIcon from "@mui/icons-material/Add";
+import { Divider, Stack, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 
 export default function TicketDetails(props) {
-  const [toggled, setToggled] = React.useState(false);
-  const [discussionOpen, setDiscussionOpen] = React.useState(false);
+  const [toggled, setToggled] = React.useState(true);
   const [status, setStatus] = React.useState(props.task.status);
   const setAlertState = useContext(AppContext);
 
@@ -41,61 +32,46 @@ export default function TicketDetails(props) {
     })
   };
 
-  let discussionWindow;
-  if (discussionOpen) {
-    discussionWindow = <CommentsWindow taskId={props.task.id}/>
-  }
-
-  let details;
-  if (toggled) {
-    details = <div className={cl.details}>{props.task.details}</div>
-  }
-
   return (
     <React.Fragment>
-      <div className={cl.main}>
-        <h1 className={cl.title}>[Id: {props.task.id}] {props.task.title}</h1>
-        <div className={cl.detailsSection}>
-          <div className={cl.detailsHead}>
-            <div>Details</div>
+      <Stack spacing={1} direction='column' sx={{height: 1}}>
+        <Stack direction='row' spacing={2}>
+          <Typography variant='h5' flexGrow={1}>[Id: {props.task.id}] {props.task.title}</Typography>
+          <FormControl size='small' sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id='select-label'>Status</InputLabel>
+            <Select
+              labelId='select-label'
+              value={status}
+              label='Status'
+              onChange={handleStatusChange}
+            >
+              <MenuItem value={0}>New</MenuItem>
+              <MenuItem value={1}>Active</MenuItem>
+              <MenuItem value={2}>Completed</MenuItem>
+            </Select>
+          </FormControl>
+
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+        </Stack>
+
+        <Stack sx={{border: 1, borderRadius: '3px', p: '10px', pt: '4px', pb: '4px'}}>
+          <Stack direction='row'>
+            <Typography flexGrow={1}>Details</Typography>
             <SwitchToggle
               button
               toggled={toggled}
               onClick={() => setToggled(!toggled)}
             />
-          </div>
-          {details}
-        </div>
-        <div className={cl.editButton}>
-          <IconButton
-            size="large"
-            edge="end"
-            color="inherit"
-            aria-label="edit"
-            // onClick={() => {}} /> TODO edit modal
-          >
-            <EditIcon />
-          </IconButton>
-        </div>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-filled-label">Status</InputLabel>
-          <Select
-            sx={{paddingLeft:"10px", paddingTop:"5px"}}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            label="Status"
-            onChange={handleStatusChange}
-          >
-            <MenuItem sx={{width:'100%'}} value={0}>New</MenuItem>
-            <MenuItem sx={{width:'100%'}} value={1}>Active</MenuItem>
-            <MenuItem sx={{width:'100%'}} value={2}>Completed</MenuItem>
-          </Select>
-        </FormControl>
-        <div>
+          </Stack>
+          <Divider/>
+          {toggled && <Typography>{props.task.details}</Typography>}
+        </Stack>
+        <Box>
           <CommentsWindow taskId={props.task.id}/>
-        </div>
-      </div>
+        </Box>
+      </Stack>
     </React.Fragment>
   )
 }
