@@ -1,29 +1,34 @@
 import TicketDetailModal from "components/Ticket/TicketDetailModal";
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import "./Card.styles.scss";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 
-const TicketCard = (props) => {
+const TicketCard = ({ task, drag, empty }) => {
+  const [open, setOpen] = useState(false)
 
-    const [open, setOpen] = useState(false)
+  const openDetails = () => {
+      setOpen(true);
+  }
 
-    const openDetails = () => {
-        setOpen(true);
-    }
+  const title = task.title ?? ''
+  const date = new Date(Date.parse(task.createdDatetime));
+  const localDate = empty ? '' : date.toLocaleDateString()
+  const time = empty ? '' : date.getHours() + ':' + date.getMinutes()
 
-    const date = new Date(Date.parse(props.task.createdDatetime));
-
-    return (
-        <React.Fragment>
-            <div className={`card ` + (props.empty ? "card--empty" : "") + (props.drag ? "card--drag" : "")}
-                 onClick={() => openDetails()}
-            >
-                <div className="title">{props.task.title}</div>
-                <div className="date">{date.toLocaleDateString()}</div>
-                <div className="time">{date.getHours()}:{date.getMinutes()}</div>
-            </div>
-            <TicketDetailModal task={props.task} open={open} handleClose={() => setOpen(false)}/>
-      </React.Fragment>)
+  return (
+    <React.Fragment>
+      <Paper
+        elevation={3}
+        onClick={() => openDetails()}
+        sx={{backgroundColor: 'white', p: '5px', mt: '5px', mb: '5px'}}
+      >
+        <Grid container justify="space-between" direction='column'>
+          <Typography>{title}</Typography>
+          <Typography inline variant='caption' align='right'>{localDate + '  ' + time}</Typography>
+        </Grid>
+      </Paper>
+      <TicketDetailModal task={task} open={open} handleClose={() => setOpen(false)}/>
+    </React.Fragment>)
 };
 
 TicketCard.propTypes = {
