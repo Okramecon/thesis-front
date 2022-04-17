@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend }from "react-dnd-html5-backend";
-import "./TaskBoard.styles.scss";
 import Column from "./Column/Column";
 import CustomDragLayer from "./CustomDragLayer/CustomDragLayer";
 import ThesisAPIService from "API/ThesisAPI";
 import AlertSeverities from "helpers/AlertSeverities";
 import { AppContext } from "App";
+import { Box } from "@mui/material";
 
 const TaskBoard = ({tasks}) => {
   const [myTasks, moveMyTask] = useState(tasks);
@@ -42,9 +42,9 @@ const TaskBoard = ({tasks}) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <CustomDragLayer />
-      <div className="task-board">
+      <Box className="task-board" display='inline-flex' flexGrow={1} alignItems='start'>
         {columns}
-      </div>
+      </Box>
     </DndProvider>
   );
 };
