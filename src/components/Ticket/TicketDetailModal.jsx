@@ -22,23 +22,19 @@ const style = {
 export default function TicketDetailModal(props) {
 
   return (
-    <React.Fragment>
-      <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={props.open}
-          onClose={() => props.handleClose()}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{timeout: 500}}
-      >
-        <Fade in={props.open}>
-          <Box sx={style}>
-            <TicketDetails task={props.task}/>
-          </Box>
-        </Fade>
-      </Modal>
-    </React.Fragment>
+    <Modal
+        open={props.open}
+        onClose={() => props.handleClose()}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{timeout: 500}}
+    >
+      <Fade in={props.open}>
+        <Box sx={style}>
+          <TicketDetails task={props.task}/>
+        </Box>
+      </Fade>
+    </Modal>
   )
 }
 
