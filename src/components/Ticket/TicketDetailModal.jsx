@@ -30,7 +30,7 @@ export default function TicketDetailModal(props) {
     >
       <Fade in={props.open}>
         <Box sx={style}>
-          <TicketDetails task={props.task}/>
+          <TicketDetails task={props.task} closeModal={props.handleClose}/>
         </Box>
       </Fade>
     </Modal>
