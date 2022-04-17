@@ -24,7 +24,7 @@ const TicketCard = ({ task, drag, empty }) => {
       >
         <Grid container justify="space-between" direction='column'>
           <Typography>{title}</Typography>
-          <Typography color='grey.600' inline variant='caption' align='right'>{localDate + '  ' + time}</Typography>
+          <Typography color='grey.600' variant='caption' align='right'>{localDate + '  ' + time}</Typography>
         </Grid>
       </Paper>
       <TicketDetailModal task={task} open={open} handleClose={() => setOpen(false)}/>

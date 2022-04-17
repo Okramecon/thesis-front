@@ -20,7 +20,6 @@ const style = {
 };
 
 export default function TicketDetailModal(props) {
-
   return (
     <Modal
         open={props.open}

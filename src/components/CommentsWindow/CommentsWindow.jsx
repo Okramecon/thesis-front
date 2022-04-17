@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import ThesisAPIService from "../../API/ThesisAPI";
 import AlertSeverities from "../../helpers/AlertSeverities";
 import {AppContext} from "../../App";
-import {TextInput} from "../UI/TextInput/TextInput";
+import SendIcon from '@mui/icons-material/Send';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { Button, Stack, TextField } from '@mui/material';
 
 const CommentsWindow = ({ taskId }) => {
   const [comments, setComments] = useState([])
@@ -26,7 +27,15 @@ const CommentsWindow = ({ taskId }) => {
     fetchTaskComments();
   }, []);
 
-  const sendComment = (comment) => {
+  const [comment, setComment] = useState({ticketId:taskId, message:''});
+
+  function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+  }
+
+  const sendComment = () => {
+    if (isEmptyOrSpaces(comment.message))
+      return;
     ThesisAPIService.postComment(comment)
     .then(response => {
       if(response.ok) {
@@ -40,9 +49,22 @@ const CommentsWindow = ({ taskId }) => {
 
   return (
     <React.Fragment>
-      <TextInput
-        ticketId={taskId}
-        sendComment={sendComment}/>
+      <Stack direction='row' spacing={2}>
+        <TextField size='small' required fullWidth
+          id="1"
+          value={comment.message}
+          onChange={e => setComment({...comment, message: e.target.value})}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              sendComment();
+              ev.preventDefault();
+            }
+          }}>
+        </TextField>
+        <Button size='small' onClick={sendComment} startIcon={<SendIcon/>} variant='outlined' sx={{pl:'6px'}}>
+          Send
+        </Button>
+      </Stack>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((comment) =>
           <ListItem key={comment.id} alignItems="flex-start">
