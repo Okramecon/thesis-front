@@ -22,7 +22,7 @@ const CommentsWindow = ({ taskId }) => {
   const fetchTaskComments = () =>  {
     ThesisAPIService.getTasksComments(taskId)
     .then(response => {
-      setComments(response.data)
+      setComments(response.data.reverse())
     })
   }
 
@@ -44,7 +44,10 @@ const CommentsWindow = ({ taskId }) => {
 
   return (
     <React.Fragment>
-      <Divider sx={{marginTop:"30px"}}/>
+      <TextInput
+        variant=''
+        ticketId={taskId}
+        sendComment={sendComment}/>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((comment) =>
           <ListItem key={comment.id} alignItems="flex-start">
@@ -69,10 +72,6 @@ const CommentsWindow = ({ taskId }) => {
           </ListItem>
         )}
       </List>
-      <Divider sx={{marginBottom:'5px'}}/>
-      <TextInput
-        ticketId={taskId}
-        sendComment={sendComment}/>
     </React.Fragment>
   );
 };
