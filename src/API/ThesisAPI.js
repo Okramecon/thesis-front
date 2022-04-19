@@ -42,6 +42,7 @@ const handleResponse = (response, okMessage, badMessage) => {
 }
 
 export default class ThesisAPIService {
+  static mediaUrl = 'https://api.thesis.uno/uploads'
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
