@@ -13,18 +13,6 @@ const getBearerToken = () => {
   return localStorage.getItem('bearer')
 }
 
-const checkBearerToken = () => {
-  var expires = new Date(localStorage.getItem('expires'))
-  var current = new Date()
-  if(expires < current) {
-    localStorage.removeItem('bearer');
-    localStorage.removeItem('username');
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('expires')
-    return { ok: false, message: 'Login session expired!' }
-  }
-}
-
 const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
@@ -56,11 +44,6 @@ export default class ThesisAPIService {
   }
 
   static async postDepartment(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
       'Authorization': getBearerToken()
     }})
@@ -76,11 +59,6 @@ export default class ThesisAPIService {
   }
 
   static async postProject({ title, summary, departmentId }) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
       'Authorize': getBearerToken()
     }})
@@ -99,10 +77,10 @@ export default class ThesisAPIService {
         },
         validateStatus: () => true
     })
-    
+
     switch(response.status) {
         case 200:
-            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName, expires: response.data.accessTokenExpireDate }
         case 400:;
         case 500:
             return { ok: false, message: response.data.Message }
@@ -123,11 +101,6 @@ export default class ThesisAPIService {
   }
 
   static async UpdateTask(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.put(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -136,11 +109,6 @@ export default class ThesisAPIService {
   }
 
   static async createTicket(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -156,11 +124,6 @@ export default class ThesisAPIService {
   /*Comments*/
 
   static async postComment(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Comments`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -185,11 +148,6 @@ export default class ThesisAPIService {
   }
 
   static async postNews(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/News/`, model, { validateStatus: () => true , headers: {
       'Authorization': getBearerToken() 
     }})
