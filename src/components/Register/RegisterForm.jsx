@@ -6,7 +6,7 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function RegisterForm({ closeModal }) {
-  const [registerData, setRegisterData] = useState({})
+  const [registerData, setRegisterData] = useState({email: '', password: '', passwordConfirmation: '', firstName: '', lastName: ''})
   const { email, password, passwordConfirmation, firstName, lastName } = registerData
   const setAlertState = useContext(AppContext)
   const navigate = useNavigate();

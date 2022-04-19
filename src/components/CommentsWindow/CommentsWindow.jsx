@@ -120,11 +120,11 @@ const CommentsWindow = ({ taskId }) => {
                     if(imageExts.includes(file.extension)) {
                       return (<CardMedia onClick={() => {
                         window.open(`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`, '_blank').focus();
-                      }} component='img' height="50" image={`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`} sx={{pr: '4px', cursor: 'pointer'}}/>)
+                      }} component='img' height="50" image={`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`} sx={{pr: '4px', cursor: 'pointer'}} key={file.id}/>)
                     } else {
                       return (<Button onClick={() => {
                         window.open(`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`, '_blank').focus();
-                      }} size='small'>{file.extension}</Button>)
+                      }} size='small' key={file.id}>{file.extension}</Button>)
                     }
                   })
                 }
