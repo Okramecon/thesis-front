@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import ThesisAPIService from "../../API/ThesisAPI";
 import AlertSeverities from "../../helpers/AlertSeverities";
 import {AppContext} from "../../App";
-import SendIcon from '@mui/icons-material/Send';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, CardMedia, IconButton, Input, Stack, TextField } from '@mui/material';
+import { AttachFile } from '@mui/icons-material';
+
+const imageExts = ['.png', '.jpg', '.jpeg']
 
 const CommentsWindow = ({ taskId }) => {
   const [comments, setComments] = useState([])
@@ -27,9 +29,12 @@ const CommentsWindow = ({ taskId }) => {
     fetchTaskComments();
   }, []);
 
-  const [comment, setComment] = useState({ticketId:taskId, message:''});
+  const [comment, setComment] = useState({ticketId:taskId, message:'',});
+  const [sendDisabled, setSendDisabled] = useState(false)
 
-  function isEmptyOrSpaces(str){
+  const attachedCount = (comment.attachments && comment.attachments.length != 0) ? (<Typography> Attached {comment.attachments.length} files </Typography>) : ''
+
+  function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
   }
 
@@ -47,6 +52,19 @@ const CommentsWindow = ({ taskId }) => {
     })
   }
 
+  const handleAttachFiles = (e) => {
+    const files = Array.from(e.target.files)
+    const mediaIds = []
+    Promise.all(files.map(file => 
+      ThesisAPIService.postFile(file)
+      .then(response => {
+        mediaIds.push(response.data)
+      })
+    )).then(() => {
+      setComment({...comment, attachments: mediaIds})
+    })
+  }
+
   return (
     <React.Fragment>
       <Stack direction='row' spacing={2}>
@@ -61,31 +79,57 @@ const CommentsWindow = ({ taskId }) => {
             }
           }}>
         </TextField>
-        <Button size='small' onClick={sendComment} startIcon={<SendIcon/>} variant='outlined' sx={{pl:'6px'}}>
+        <Button size='small' onClick={sendComment} disabled={sendDisabled} variant='outlined' sx={{pl:'6px'}}>
           Send
         </Button>
+        <label htmlFor="icon-button-file">
+          <Input onChange={handleAttachFiles} inputProps={{ multiple: true }} accept="image/*,.pdf,.doc,.docx,.docm" id="icon-button-file" type='file' sx={{visibility: 'hidden', position: 'absolute', width: 0, height: 0}}/>
+          <IconButton color="primary" aria-label="upload picture" component="span">
+            <AttachFile/>
+          </IconButton>
+        </label>
       </Stack>
+      {attachedCount}
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((comment) =>
-          <ListItem key={comment.id} alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt={comment?.user?.userName} src="d" />
-            </ListItemAvatar>
-            <ListItemText
-              primary={comment.user.userName + "(" + comment.user?.firstName + " " + comment.user?.lastName + ")"}
-              secondary={
-                <React.Fragment >
-                  <Typography
-                    sx={{ display: 'inline', wordWrap:'break-Word'}}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    {comment.message}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
+          <ListItem key={comment.id} alignItems="flex-start" sx={{border:1, borderColor: 'grey.200', mb: '6px', borderRadius: '4px'}}>
+            <Stack direction='column'>
+              <Stack direction='row'>
+                <ListItemAvatar>
+                  <Avatar alt={comment?.user?.userName} src="d" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={comment.user.userName + "(" + comment.user?.firstName + " " + comment.user?.lastName + ")"}
+                  secondary={
+                    <React.Fragment >
+                      <Typography
+                        sx={{ display: 'inline', wordWrap:'break-Word'}}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {comment.message}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </Stack>
+              <Stack direction='row'>
+                {
+                  comment.attachments.map(file => {
+                    if(imageExts.includes(file.extension)) {
+                      return (<CardMedia onClick={() => {
+                        window.open(`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`, '_blank').focus();
+                      }} component='img' height="50" image={`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`} sx={{pr: '4px', cursor: 'pointer'}}/>)
+                    } else {
+                      return (<Button onClick={() => {
+                        window.open(`${ThesisAPIService.mediaUrl}/${file.id}${file.extension}`, '_blank').focus();
+                      }} size='small'>{file.extension}</Button>)
+                    }
+                  })
+                }
+              </Stack>
+            </Stack>
           </ListItem>
         )}
       </List>

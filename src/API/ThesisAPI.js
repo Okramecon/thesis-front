@@ -42,6 +42,7 @@ const handleResponse = (response, okMessage, badMessage) => {
 }
 
 export default class ThesisAPIService {
+  static mediaUrl = 'https://api.thesis.uno/uploads'
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
@@ -202,5 +203,15 @@ export default class ThesisAPIService {
     var response = await axios.get(`${apiUrl}/Boards/byProjectId?projectId=${projectId}`, { validateStatus: () => true })
     
     return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+
+  /* MEDIA */
+
+  static async postFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${apiUrl}/Medias`, formData, { validateStatus: () => true, headers: {
+      'Authorization': getBearerToken() 
+    }})
   }
 }
