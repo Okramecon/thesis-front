@@ -10,7 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { Button, Stack, TextField } from '@mui/material';
+import { Button, IconButton, Input, Stack, TextField } from '@mui/material';
+import { AttachFile, Co2Sharp, ContentPasteOffSharp, PhotoCamera } from '@mui/icons-material';
 
 const CommentsWindow = ({ taskId }) => {
   const [comments, setComments] = useState([])
@@ -27,9 +28,12 @@ const CommentsWindow = ({ taskId }) => {
     fetchTaskComments();
   }, []);
 
-  const [comment, setComment] = useState({ticketId:taskId, message:''});
+  const [comment, setComment] = useState({ticketId:taskId, message:'',});
+  const [sendDisabled, setSendDisabled] = useState(false)
 
-  function isEmptyOrSpaces(str){
+  const attachedCount = (comment.attachments && comment.attachments.length != 0) ? (<Typography> Attached {comment.attachments.length} files </Typography>) : ''
+
+  function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
   }
 
@@ -47,6 +51,19 @@ const CommentsWindow = ({ taskId }) => {
     })
   }
 
+  const handleAttachFiles = (e) => {
+    const files = Array.from(e.target.files)
+    const mediaIds = []
+    Promise.all(files.map(file => 
+      ThesisAPIService.postFile(file)
+      .then(response => {
+        mediaIds.push(response.data)
+      })
+    )).then(() => {
+      setComment({...comment, attachments: mediaIds})
+    })
+  }
+
   return (
     <React.Fragment>
       <Stack direction='row' spacing={2}>
@@ -61,10 +78,17 @@ const CommentsWindow = ({ taskId }) => {
             }
           }}>
         </TextField>
-        <Button size='small' onClick={sendComment} startIcon={<SendIcon/>} variant='outlined' sx={{pl:'6px'}}>
+        <Button size='small' onClick={sendComment} disabled={sendDisabled} variant='outlined' sx={{pl:'6px'}}>
           Send
         </Button>
+        <label htmlFor="icon-button-file">
+          <Input onChange={handleAttachFiles} inputProps={{ multiple: true }} accept="image/*,.pdf,.doc,.docx,.docm" id="icon-button-file" type='file' sx={{visibility: 'hidden', position: 'absolute', width: 0, height: 0}}/>
+          <IconButton color="primary" aria-label="upload picture" component="span">
+            <AttachFile/>
+          </IconButton>
+        </label>
       </Stack>
+      {attachedCount}
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {comments.map((comment) =>
           <ListItem key={comment.id} alignItems="flex-start">

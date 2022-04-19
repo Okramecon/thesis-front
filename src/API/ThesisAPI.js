@@ -203,4 +203,14 @@ export default class ThesisAPIService {
     
     return handleResponse(response, 'Successfully fetched board!', response.data.Message)
   }
+
+  /* MEDIA */
+
+  static async postFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${apiUrl}/Medias`, formData, { validateStatus: () => true, headers: {
+      'Authorization': getBearerToken() 
+    }})
+  }
 }
