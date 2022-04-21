@@ -34,13 +34,19 @@ export default class ThesisAPIService {
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
-      var response = await axios.get(`${apiUrl}/Departments`)
+      var response = await axios.get(`${apiUrl}/Departments`, { headers: {
+        'Authorization': getBearerToken()
+      }})
       return handleResponse(response, 'Successfully fetched departments', 'Couldnt fetch departments')
   }
 
   static async getDepartmentById(id) {
-      var response = await axios.get(`${apiUrl}/Departments/${id}`)
-      return handleResponse(response, 'Successfully fetched department', response.data.Message)
+      var response = await axios.get(`${apiUrl}/Departments/${id}`, { headers: {
+        'Authorization': getBearerToken()
+      }})
+      return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
+        'Authorization': getBearerToken()
+      }})
   }
 
   static async postDepartment(model) {
@@ -54,7 +60,9 @@ export default class ThesisAPIService {
   /* PROJECTS */
 
   static async getProjectsByDepartmentId(id) {
-    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
+    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`, { headers: {
+      'Authorization': getBearerToken()
+    }});
     return response;
   }
 
