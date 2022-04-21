@@ -29,6 +29,7 @@ function Navbar() {
         localStorage.removeItem('username');
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('expires')
+        localStorage.removeItem('roles')
         clearInterval(interval)
         setLoggedIn(false)
       }
@@ -67,7 +68,7 @@ function Navbar() {
         </Toolbar>
 
         <Drawer anchor='left' open={sidebarVisible} onClose={showHideSidebar}>
-          <Sidebar setSidebarVisible={setSidebarVisible}/>
+          <Sidebar setSidebarVisible={setSidebarVisible} loggedIn={loggedIn}/>
         </Drawer>
       </AppBar>
     </Box>

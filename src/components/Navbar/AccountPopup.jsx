@@ -9,6 +9,7 @@ function AccountPopup({ setLoggedIn }) {
   const setAlertState = useContext(AppContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const username = localStorage.getItem('username')
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,7 +26,9 @@ function AccountPopup({ setLoggedIn }) {
     localStorage.removeItem('username')
     localStorage.removeItem('loggedIn')
     localStorage.removeItem('expires')
+    localStorage.removeItem('roles')
     setAlertState({ alertOpen: true, message: 'Successfully logged out!', severity: AlertSeverities.info})
+    navigate('/')
     setLoggedIn(false)
   }
 

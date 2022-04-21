@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { SidebarButtons } from '../helpers/SidebarButtons';
 
-const Sidebar = ({setSidebarVisible}) => {
+const Sidebar = ({setSidebarVisible, loggedIn}) => {
     const navigate = useNavigate()
 
     return (
@@ -15,7 +15,8 @@ const Sidebar = ({setSidebarVisible}) => {
         onKeyDown={() => setSidebarVisible(false)}
       >
         <List>
-          {SidebarButtons.map(({title, icon, link}) => (
+          {
+            loggedIn && SidebarButtons.WithLogin.map(({title, icon, link}) => (
             <ListItem button key={title} onClick={() => navigate(link)}>
               <ListItemIcon>
                 {icon}
@@ -26,12 +27,13 @@ const Sidebar = ({setSidebarVisible}) => {
         </List>
         <Divider />
         <List>
-          {['Mail'].map((text) => (
-            <ListItem button key={text} disabled={true}>
+          {
+            SidebarButtons.WithoutLogin.map(({title, icon, link}) => (
+            <ListItem button key={title} onClick={() => navigate(link)}>
               <ListItemIcon>
-                <InboxIcon />
+                {icon}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={title} />
             </ListItem>
           ))}
         </List>

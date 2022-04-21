@@ -34,13 +34,19 @@ export default class ThesisAPIService {
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
-      var response = await axios.get(`${apiUrl}/Departments`)
+      var response = await axios.get(`${apiUrl}/Departments`, { headers: {
+        'Authorization': getBearerToken()
+      }})
       return handleResponse(response, 'Successfully fetched departments', 'Couldnt fetch departments')
   }
 
   static async getDepartmentById(id) {
-      var response = await axios.get(`${apiUrl}/Departments/${id}`)
-      return handleResponse(response, 'Successfully fetched department', response.data.Message)
+      var response = await axios.get(`${apiUrl}/Departments/${id}`, { headers: {
+        'Authorization': getBearerToken()
+      }})
+      return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
+        'Authorization': getBearerToken()
+      }})
   }
 
   static async postDepartment(model) {
@@ -51,10 +57,20 @@ export default class ThesisAPIService {
     return handleResponse(response, 'Successfully created department!', response.data.Message)
   }
 
+  static async addUserToDepartmentByEmail(userEmail, departmentId) {
+    var response = await axios.get(`${apiUrl}/Departments/addUserByEmail/${departmentId}?userName=${userEmail}`, { headers: {
+      'Authorization': getBearerToken()
+    }})
+    
+    return handleResponse(response, 'Successfully created department!', response.data.Message)
+  }
+
   /* PROJECTS */
 
   static async getProjectsByDepartmentId(id) {
-    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
+    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`, { headers: {
+      'Authorization': getBearerToken()
+    }});
     return response;
   }
 
@@ -80,7 +96,7 @@ export default class ThesisAPIService {
 
     switch(response.status) {
         case 200:
-            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName, expires: response.data.accessTokenExpireDate }
+            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName, expires: response.data.accessTokenExpireDate, roles: response.data.roles }
         case 400:;
         case 500:
             return { ok: false, message: response.data.Message }
