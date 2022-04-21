@@ -26,6 +26,7 @@ function AccountPopup({ setLoggedIn }) {
     localStorage.removeItem('username')
     localStorage.removeItem('loggedIn')
     localStorage.removeItem('expires')
+    localStorage.removeItem('roles')
     setAlertState({ alertOpen: true, message: 'Successfully logged out!', severity: AlertSeverities.info})
     navigate('/')
     setLoggedIn(false)

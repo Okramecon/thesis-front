@@ -57,6 +57,14 @@ export default class ThesisAPIService {
     return handleResponse(response, 'Successfully created department!', response.data.Message)
   }
 
+  static async addUserToDepartmentByEmail(userEmail, departmentId) {
+    var response = await axios.get(`${apiUrl}/Departments/addUserByEmail/${departmentId}?userName=${userEmail}`, { headers: {
+      'Authorization': getBearerToken()
+    }})
+    
+    return handleResponse(response, 'Successfully created department!', response.data.Message)
+  }
+
   /* PROJECTS */
 
   static async getProjectsByDepartmentId(id) {
@@ -88,7 +96,7 @@ export default class ThesisAPIService {
 
     switch(response.status) {
         case 200:
-            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName, expires: response.data.accessTokenExpireDate }
+            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName, expires: response.data.accessTokenExpireDate, roles: response.data.roles }
         case 400:;
         case 500:
             return { ok: false, message: response.data.Message }

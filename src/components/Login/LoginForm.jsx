@@ -25,6 +25,7 @@ function LoginForm({ setLoggedIn }) {
           localStorage.setItem('username', response.userName)
           localStorage.setItem('loggedIn', true)
           localStorage.setItem('expires', response.expires)
+          localStorage.setItem('roles', response.roles)
           console.log(response.expires)
           setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
           setLoggedIn(true)

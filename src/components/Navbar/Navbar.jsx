@@ -29,6 +29,7 @@ function Navbar() {
         localStorage.removeItem('username');
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('expires')
+        localStorage.removeItem('roles')
         clearInterval(interval)
         setLoggedIn(false)
       }
