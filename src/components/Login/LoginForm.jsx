@@ -23,6 +23,7 @@ function LoginForm({ setLoggedIn }) {
         if(response.ok) {
           localStorage.setItem('bearer', 'Bearer ' + response.bearer)
           localStorage.setItem('username', response.userName)
+          localStorage.setItem('userId', response.userId)
           localStorage.setItem('loggedIn', true)
           localStorage.setItem('expires', response.expires)
           localStorage.setItem('roles', response.roles)
