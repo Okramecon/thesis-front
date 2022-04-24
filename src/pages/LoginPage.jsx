@@ -24,6 +24,7 @@ function LoginPage() {
         if(response.ok) {
           localStorage.setItem('bearer', 'Bearer ' + response.bearer)
           localStorage.setItem('username', response.userName)
+          localStorage.setItem('userId', response.userId)
           localStorage.setItem('loggedIn', true)
           localStorage.setItem('expires', response.accessTokenExpireDate)
           setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})

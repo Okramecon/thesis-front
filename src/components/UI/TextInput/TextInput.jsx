@@ -42,7 +42,7 @@ export const TextInput = ({ sendComment, ticketId }) => {
 
   const classes = useStyles();
   return (
-    <>
+    <React.Fragment>
       <form className={classes.wrapForm}  noValidate autoComplete="off">
         <TextField
           id="outlined-basic"
@@ -66,6 +66,6 @@ export const TextInput = ({ sendComment, ticketId }) => {
           <SendIcon />
         </Button>
       </form>
-    </>
+    </React.Fragment>
   )
 }

@@ -1,12 +1,13 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
 import axios from "axios";
+import {HttpTransportType, HubConnectionBuilder} from "@microsoft/signalr";
 var apiUrl = "https://api.thesis.uno/api";
 
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "https://api.thesis.uno/api";
+    apiUrl = "https://localhost:44312/api";
 }
 
 const getBearerToken = () => {
@@ -29,6 +30,8 @@ const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
       return { ok: true, message: okMessage, data: response.data};
+      case 200:
+      return { ok: true, message: okMessage, data: null};
     case 400:;
     case 500:
       return { ok: false, message: badMessage };
@@ -101,7 +104,13 @@ export default class ThesisAPIService {
     
     switch(response.status) {
         case 200:
-            return { ok: true, bearer: response.data.accessToken, userName: response.data.userName }
+            return {
+              ok: true,
+              bearer: response.data.accessToken,
+              userName: response.data.userName,
+              accessTokenExpireDate: response.data.accessTokenExpireDate,
+              userId: response.data.userId
+            }
         case 400:;
         case 500:
             return { ok: false, message: response.data.Message }
@@ -201,6 +210,43 @@ export default class ThesisAPIService {
   static async getBoardByProjectId(projectId) {
     var response = await axios.get(`${apiUrl}/Boards/byProjectId?projectId=${projectId}`, { validateStatus: () => true })
     
+    return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+
+  /* Chat */
+
+  static getNewChatConnection() {
+    return new HubConnectionBuilder()
+        .withUrl(`https://localhost:44312/chat`,
+            {
+              skipNegotiation: true,
+              transport: HttpTransportType.WebSockets,
+              accessTokenFactory: () => getBearerToken().slice(7)
+            })
+        .withAutomaticReconnect()
+        .build();
+  }
+
+  static async getChatRoom(chatId) {
+    var response = await axios.get(`${apiUrl}/Chatrooms?chatId=${chatId}`, { validateStatus: () => true })
+    return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+
+  static async getCommonChatRoom(userId) {
+    const currentUserId = localStorage.getItem("userId");
+    var response = await axios.get(`${apiUrl}/Chatrooms/common?userId1=${currentUserId}&userId2=${userId}`, { validateStatus: () => true })
+    return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+
+  static async getUserChats(username) {
+    var response = await axios.get(`${apiUrl}/Chatrooms/user?username=${username}`, { validateStatus: () => true })
+    return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+
+  static async searchUsers(searchQuery) {
+    var response = await axios.get(`${apiUrl}/Users/search?searchStr=${searchQuery}`, { headers: {
+        'Authorization': getBearerToken()
+      }})
     return handleResponse(response, 'Successfully fetched board!', response.data.Message)
   }
 }
