@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Stack, TextField } from '@mui/material';
 import ThesisAPIService from 'API/ThesisAPI';
 import { AppContext } from 'App';
 import AlertSeverities from 'helpers/AlertSeverities';
@@ -17,7 +17,25 @@ const AddProjectForm = ({closeModal, fetchProjects }) => {
       setProject({...project, summary:e.target.value})
   }
 
+  const validate = () => {
+    let errorMessage = '', valid = true
+    if(!project.title || !project.summary) {
+      errorMessage = 'Title and summary are required fields!'
+      valid = false
+    }
+
+    if(!valid) {
+      setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error})
+    }
+
+    return valid
+  }
+
   const handleCreate = async () => {
+    if(!validate()) {
+      return
+    }
+
     ThesisAPIService.postProject(project)
     .then(response => {
       if(response.ok) {
@@ -31,7 +49,7 @@ const AddProjectForm = ({closeModal, fetchProjects }) => {
   }
 
   return (
-    <div className='projectForm'>  
+    <Stack direction='column' spacing={2}>  
         <TextField
             required
             id="1"
@@ -48,7 +66,7 @@ const AddProjectForm = ({closeModal, fetchProjects }) => {
             onChange={_handleSummaryTextFieldChange}
         />
         <Button variant="contained" onClick={handleCreate}>Add</Button>
-    </div>
+    </Stack>
   );
 };
 

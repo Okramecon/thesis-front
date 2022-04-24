@@ -1,10 +1,10 @@
 import React from "react";
 import { useDrop } from "react-dnd";
-import "./Column.styles.scss";
 import DraggableCard from "../DraggableCard/DraggableCard";
 import { ItemTypes } from "../Constants";
 import TicketCard from "../Card/TicketCard";
-import { Button } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
   const cards = tasks.map((task, index) => {
@@ -32,13 +32,25 @@ const Column = ({ tasks: { title, tasks }, columnIndex, handleMoveMyTask }) => {
   });
 
   return (
-    <div ref={dropRef} className="column">
-      <p className="column__title">{title}</p>
-      <div className="column__cards">
+    <Stack ref={dropRef} sx={{
+      width: 1 / 3,
+      ml: '4px',
+      mr: '4px',
+      background: '#f5f5f5',
+      backgroundColor: '#70aae3',
+      p: '10px',
+      borderRadius: '4px'
+    }}>
+      <Typography sx={{
+        fontWeight: 'bold',
+        margin: '5px 0 15px',
+        color: 'whitesmoke',
+      }}>{title}</Typography>
+      <Box>
         {cards}
         {isOver && canDrop ? <TicketCard task={{}} empty /> : ""}
-      </div>
-    </div>
+      </Box>
+    </Stack>
   );
 };
 

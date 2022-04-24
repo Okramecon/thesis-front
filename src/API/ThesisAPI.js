@@ -14,18 +14,6 @@ const getBearerToken = () => {
   return localStorage.getItem('bearer')
 }
 
-const checkBearerToken = () => {
-  var expires = new Date(localStorage.getItem('expires'))
-  var current = new Date()
-  if(expires < current) {
-    localStorage.removeItem('bearer');
-    localStorage.removeItem('username');
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('expires')
-    return { ok: false, message: 'Login session expired!' }
-  }
-}
-
 const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
@@ -45,25 +33,35 @@ const handleResponse = (response, okMessage, badMessage) => {
 }
 
 export default class ThesisAPIService {
+  static mediaUrl = 'https://api.thesis.uno/uploads'
   /* DEPARTMENTS */
 
   static async getAllDepartments() {
-      var response = await axios.get(`${apiUrl}/Departments`)
+      var response = await axios.get(`${apiUrl}/Departments`, { headers: {
+        'Authorization': getBearerToken()
+      }})
       return handleResponse(response, 'Successfully fetched departments', 'Couldnt fetch departments')
   }
 
   static async getDepartmentById(id) {
-      var response = await axios.get(`${apiUrl}/Departments/${id}`)
-      return handleResponse(response, 'Successfully fetched department', response.data.Message)
+      var response = await axios.get(`${apiUrl}/Departments/${id}`, { headers: {
+        'Authorization': getBearerToken()
+      }})
+      return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
+        'Authorization': getBearerToken()
+      }})
   }
 
   static async postDepartment(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
+      'Authorization': getBearerToken()
+    }})
+    
+    return handleResponse(response, 'Successfully created department!', response.data.Message)
+  }
+
+  static async addUserToDepartmentByEmail(userEmail, departmentId) {
+    var response = await axios.get(`${apiUrl}/Departments/addUserByEmail/${departmentId}?userName=${userEmail}`, { headers: {
       'Authorization': getBearerToken()
     }})
     
@@ -73,16 +71,13 @@ export default class ThesisAPIService {
   /* PROJECTS */
 
   static async getProjectsByDepartmentId(id) {
-    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`);
+    var response = await axios.get(`${apiUrl}/Departments/${id}/projects`, { headers: {
+      'Authorization': getBearerToken()
+    }});
     return response;
   }
 
   static async postProject({ title, summary, departmentId }) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
       'Authorize': getBearerToken()
     }})
@@ -101,15 +96,16 @@ export default class ThesisAPIService {
         },
         validateStatus: () => true
     })
-    
+
     switch(response.status) {
         case 200:
             return {
               ok: true,
               bearer: response.data.accessToken,
               userName: response.data.userName,
-              accessTokenExpireDate: response.data.accessTokenExpireDate,
-              userId: response.data.userId
+              expires: response.data.accessTokenExpireDate,
+              userId: response.data.userId,
+              roles: response.data.roles
             }
         case 400:;
         case 500:
@@ -131,11 +127,6 @@ export default class ThesisAPIService {
   }
 
   static async UpdateTask(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.put(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -144,11 +135,6 @@ export default class ThesisAPIService {
   }
 
   static async createTicket(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -164,11 +150,6 @@ export default class ThesisAPIService {
   /*Comments*/
 
   static async postComment(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/Comments`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }});
@@ -193,11 +174,6 @@ export default class ThesisAPIService {
   }
 
   static async postNews(model) {
-    var check = checkBearerToken()
-    if(check) {
-      return check
-    }
-
     var response = await axios.post(`${apiUrl}/News/`, model, { validateStatus: () => true , headers: {
       'Authorization': getBearerToken() 
     }})
@@ -248,5 +224,14 @@ export default class ThesisAPIService {
         'Authorization': getBearerToken()
       }})
     return handleResponse(response, 'Successfully fetched board!', response.data.Message)
+  }
+  /* MEDIA */
+
+  static async postFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post(`${apiUrl}/Medias`, formData, { validateStatus: () => true, headers: {
+      'Authorization': getBearerToken() 
+    }})
   }
 }

@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App';
 import AlertSeverities from '../../helpers/AlertSeverities';
 
-function AccountPopup() {
+function AccountPopup({ setLoggedIn }) {
   const setAlertState = useContext(AppContext)
-  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const username = localStorage.getItem('username')
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -22,12 +22,14 @@ function AccountPopup() {
   const id = open ? 'simple-popover' : undefined;
 
   const logout = () => {
-    localStorage.removeItem('bearer');
-    localStorage.removeItem('username');
-    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('bearer')
+    localStorage.removeItem('username')
+    localStorage.removeItem('loggedIn')
     localStorage.removeItem('expires')
+    localStorage.removeItem('roles')
     setAlertState({ alertOpen: true, message: 'Successfully logged out!', severity: AlertSeverities.info})
     navigate('/')
+    setLoggedIn(false)
   }
 
   return (

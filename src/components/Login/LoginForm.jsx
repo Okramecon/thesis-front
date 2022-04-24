@@ -1,15 +1,14 @@
-import React, { useContext, useState } from 'react'
-import TextField from '@mui/material/TextField';
-import { Button, Grid, Paper, Box } from '@mui/material';
-import ThesisAPIService from '../API/ThesisAPI';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../App';
-import AlertSeverities from '../helpers/AlertSeverities';
+import { Button, Grid, Paper, TextField } from "@mui/material"
+import { Box } from "@mui/system"
+import ThesisAPIService from "API/ThesisAPI"
+import { AppContext } from "App"
+import AlertSeverities from "helpers/AlertSeverities"
+import React, { useContext, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-function LoginPage() {
+function LoginForm({ setLoggedIn }) {
   const [loginCredentials, setLoginCredentials] = useState({login:'', password:''})
   const {login, password} = loginCredentials
-  const navigate = useNavigate()
   const setAlertState = useContext(AppContext)
 
   const validateLoginCredentials = () => {
@@ -26,9 +25,11 @@ function LoginPage() {
           localStorage.setItem('username', response.userName)
           localStorage.setItem('userId', response.userId)
           localStorage.setItem('loggedIn', true)
-          localStorage.setItem('expires', response.accessTokenExpireDate)
+          localStorage.setItem('expires', response.expires)
+          localStorage.setItem('roles', response.roles)
+          console.log(response.expires)
           setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
-          navigate('/')
+          setLoggedIn(true)
           return
         } else {
           setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
@@ -77,7 +78,7 @@ function LoginPage() {
               />
             </Grid>
             <Grid item>
-                <Button variant="contained" onClick={loginWithCredentials}>Login</Button>
+              <Button variant="contained" onClick={loginWithCredentials}>Login</Button>
             </Grid>
           </Grid>
         </Paper>
@@ -86,4 +87,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default LoginForm

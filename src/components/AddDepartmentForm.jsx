@@ -16,7 +16,25 @@ const AddDepartmentForm = ({closeModal, fetchDepartments}) => {
         setDepartment({...department, summary:e.target.value})
     }
 
-    const handleCreate = () => { 
+    const validate = () => {
+      let errorMessage = '', valid = true
+      if(!department.title || !department.summary) {
+        errorMessage = 'Title and summary are required fields!'
+        valid = false
+      }
+
+      if(!valid) {
+        setAlertState({alertOpen: true, message: errorMessage, severity: AlertSeverities.error})
+      }
+
+      return valid
+    }
+
+    const handleCreate = () => {
+      if(!validate()) {
+        return
+      }
+
       ThesisAPIService.postDepartment(department)
       .then(response => {
         if(response.ok) {

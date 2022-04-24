@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,13 +11,32 @@ import AccountPopup from './AccountPopup';
 import { Drawer, Link, List } from '@mui/material';
 import RegisterModal from '../Register/RegisterModal';
 import Sidebar from 'components/Sidebar';
+import LoginModal from 'components/Login/LoginModal';
 
 function Navbar() {
-  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn'))
   const [sidebarVisible, setSidebarVisible] = useState(false)
   const showHideSidebar = (prevVisibleState) => {
     setSidebarVisible(!prevVisibleState);
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      var expires = new Date(localStorage.getItem('expires'))
+      var current = new Date()
+      if(expires < current) {
+        localStorage.removeItem('bearer');
+        localStorage.removeItem('username');
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('expires')
+        localStorage.removeItem('roles')
+        clearInterval(interval)
+        setLoggedIn(false)
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [loggedIn]);
+
   return (        
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -38,10 +57,10 @@ function Navbar() {
             </Typography>
           </Link>
           {
-            localStorage.getItem('loggedIn') ? (<AccountPopup/>)
+            loggedIn ? (<AccountPopup setLoggedIn={setLoggedIn}/>)
               : (
               <List>
-                <Button color="inherit" onClick={() => navigate("login")}>Login</Button>
+                <LoginModal setLoggedIn={setLoggedIn}/>
                 <RegisterModal/>
               </List>
               )
@@ -49,7 +68,7 @@ function Navbar() {
         </Toolbar>
 
         <Drawer anchor='left' open={sidebarVisible} onClose={showHideSidebar}>
-          <Sidebar setSidebarVisible={setSidebarVisible}/>
+          <Sidebar setSidebarVisible={setSidebarVisible} loggedIn={loggedIn}/>
         </Drawer>
       </AppBar>
     </Box>
