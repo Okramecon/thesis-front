@@ -193,7 +193,7 @@ export default class ThesisAPIService {
 
   static getNewChatConnection() {
     return new HubConnectionBuilder()
-        .withUrl(`https://localhost:44312/chat`,
+        .withUrl(`${apiUrl}/chat`,
             {
               skipNegotiation: true,
               transport: HttpTransportType.WebSockets,
