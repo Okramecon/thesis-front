@@ -6,6 +6,14 @@ import GlobalAlert from './components/GlobalAlert';
 import Navbar from './components/Navbar/Navbar';
 import './styles/App.css';
 
+const boxStyle = {
+  flexGrow: 1,
+  paddingLeft: '40px',
+  paddingRight: '40px',
+  paddingTop: '20px',
+  paddingBottom: '20px'
+}
+
 function App() {
   const [alertState, setAlertState] = useState({alertOpen: false, message: '', severity: 'success'})
   const { alertOpen, message, severity } = alertState
@@ -16,7 +24,7 @@ function App() {
         <BrowserRouter>
           <Navbar/>
           <div className='main'>
-            <Box style={{ flexGrow: 1, display: 'flex', paddingLeft: '40px', paddingRight: '40px', paddingTop: '20px', paddingBottom: '20px' }}>
+            <Box style={boxStyle}>
               <AppRouter/>
               <GlobalAlert 
                 alertOpen={alertOpen} 

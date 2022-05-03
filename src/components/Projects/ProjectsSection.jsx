@@ -1,8 +1,9 @@
+import React from "react";
 import ClickableCard from 'components/UI/ClickableCard/ClickableCard';
 import { useNavigate } from 'react-router-dom';
 import CreateProjectModal from './CreateProjectModal';
 
-export default function ProjectsSection({projects, title, fetchProjects}) {
+export default function ProjectsSection({projects, fetchProjects}) {
  
   const navigate = useNavigate();
 
@@ -12,9 +13,6 @@ export default function ProjectsSection({projects, title, fetchProjects}) {
 
   return (
     <div>
-      <h1 style={{textAlign: 'center'}}>
-        {title}
-      </h1>
       <div className='cards_container'>
         <div className='grid'>
           {projects.map((project) =>

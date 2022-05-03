@@ -9,7 +9,7 @@ function NewsCard({ item }) {
   return (
     <Box sx={{ padding: '10px', border: 1, borderColor: 'grey.200', flexGrow: 1 }}> 
       <Typography variant='h6'> {title} </Typography>
-      <Box sx={{backgroundColor:'grey.50', padding: '3px'}}>
+      <Box sx={{backgroundColor:'grey.50', padding: '3px', wordWrap:'break-word'}}>
         <Typography> {body} </Typography>
       </Box>
       <Typography> {author?.userName} </Typography>

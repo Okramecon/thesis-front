@@ -1,4 +1,4 @@
-import { Backdrop, Box, Fab, Fade, Modal } from '@mui/material'
+import {Backdrop, Box, Fab, Fade, Modal, Tooltip} from '@mui/material'
 import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import AddProjectForm from './AddProjectForm';
@@ -20,9 +20,11 @@ function CreateProjectModal({fetchProjects}) {
 
   return (
     <React.Fragment>
-      <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} sx={{ position: 'fixed', bottom: 16, right: 16, transform: 'translateZ(0px)' }}>
-        <AddIcon />
-      </Fab>
+      <Tooltip title='Create project' sx={{fontSize: 20}}>
+        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} sx={{ position: 'fixed', bottom: 30, right: 50, transform: 'translateZ(0px)' }}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
 
       <Modal
         aria-labelledby="transition-modal-title"
