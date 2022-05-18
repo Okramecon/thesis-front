@@ -50,11 +50,8 @@ const ChatInput = props => {
                   }
                 }}
             />
-            <div className={cl.sendButton}>
-              <Button className={cl.sendButton} variant="contained" color="primary" onClick={send}>
-                <SendIcon />
-              </Button>
-            </div>
+
+            <button className={cl.sendButton} variant="outlined" onClick={send}><SendIcon /></button>
           </form>
         </div>
       </React.Fragment>

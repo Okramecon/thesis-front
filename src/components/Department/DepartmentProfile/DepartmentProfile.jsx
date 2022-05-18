@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from "react";
 import PropTypes from 'prop-types';
-import {Box, Divider, Typography} from "@mui/material";
-import UserToDepartmentForm from "../../Admin/UserToDepartmentForm";
+import {Divider, Typography} from "@mui/material";
 import NewsFeed from "../../NewsFeed/NewsFeed";
 
 const dividerStyle = {

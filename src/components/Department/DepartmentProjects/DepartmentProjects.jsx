@@ -1,25 +1,51 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import ThesisAPIService from "../../../API/ThesisAPI";
-import ProjectsSection from "../../Projects/ProjectsSection";
+import ClickableCard from "../../UI/ClickableCard/ClickableCard";
+import CreateProjectModal from "../../Projects/CreateProjectModal";
+import {useNavigate} from "react-router-dom";
 
 const DepartmentProjects = props => {
 
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
   const fetchProjects = () => {
     ThesisAPIService.getProjectsByDepartmentId(props.departmentId)
         .then(response => {
           setProjects(response.data);
-        })
+        });
   }
 
   useEffect(() => {
     fetchProjects();
-  }, [props.departmentId]);
+  }, []);
+
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
+
+  const onProjectClick = (projectId) => {
+    //navigate(`/project/${projectId}`)
+    openInNewTab(`/project/${projectId}`)
+  }
 
   return (
-      <ProjectsSection projects={projects} fetchProjects={fetchProjects}/>
+      <div>
+        <div className='cards_container'>
+          <div className='grid'>
+            {projects.map((project) =>
+                <ClickableCard
+                    key={project.id}
+                    id={project.id}
+                    title={project.title}
+                    summary={project.summary}
+                    onClickAction={() => onProjectClick(project.id)}/>)}
+          </div>
+        </div>
+        <CreateProjectModal fetchProjects={fetchProjects}/>
+      </div>
   );
 };
 

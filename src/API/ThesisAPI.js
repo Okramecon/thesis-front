@@ -10,6 +10,14 @@ if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://localhost:44312/api";
 }
 
+var chatSocketUrl = "https://api.thesis.uno/chat";
+
+if(process.env.NODE_ENV !== "development") {
+  chatSocketUrl = "https://api.thesis.uno/chat";
+} else {
+  chatSocketUrl = "https://localhost:44312/chat";
+}
+
 const getBearerToken = () => {
   return localStorage.getItem('bearer')
 }
@@ -78,10 +86,22 @@ export default class ThesisAPIService {
   }
 
   static async postProject({ title, summary, departmentId }) {
-    var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) }, { validateStatus: () => true, headers: {
-      'Authorize': getBearerToken()
+    alert("r");
+    var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) },
+        {
+        headers: {
+        'Authorization': getBearerToken()
     }})
     return handleResponse(response, 'Successfully created project!', response.data.Message)
+  }
+
+  static async getProjectById(id) {
+    var response = await axios.get(`${apiUrl}/Projects/${id}`, { headers: {
+        'Authorization': getBearerToken()
+      }})
+    return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
+        'Authorization': getBearerToken()
+      }})
   }
 
   /* LOGIN */
@@ -193,7 +213,7 @@ export default class ThesisAPIService {
 
   static getNewChatConnection() {
     return new HubConnectionBuilder()
-        .withUrl(`${apiUrl}/chat`,
+        .withUrl(chatSocketUrl,
             {
               skipNegotiation: true,
               transport: HttpTransportType.WebSockets,

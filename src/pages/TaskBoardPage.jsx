@@ -7,13 +7,13 @@ import { useParams } from 'react-router-dom';
 
 function TaskBoardPage() {
   const params = useParams();
-  const [tickets, settickets] = useState([])
+  const [tickets, setTickets] = useState([])
   const [board, setBoard] = useState()
 
   const fetchTasks = () =>  {
     ThesisAPIService.getTasksByProjectId(params.projectId)
     .then(response => {
-      settickets(response.data)
+      setTickets(response.data)
     })
   }
 
@@ -34,7 +34,7 @@ function TaskBoardPage() {
 
   const boardId = board?.id
  
-  columnsIds.map(id => {
+  columnsIds.forEach(id => {
     const tasks = tickets.filter(e => e.status === id) ?? [];
     filteredTasks.push({
       title: `${TaskStatusEnum[id]}`,

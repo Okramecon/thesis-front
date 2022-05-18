@@ -75,6 +75,7 @@ const AllChats = props => {
   const currentUsername = localStorage.getItem("username");
 
   useEffect(() => {
+    console.log(props.connection)
     ThesisAPIService
         .getUserChats(currentUsername)
         .then(response => {
@@ -136,7 +137,7 @@ const AllChats = props => {
   }
 
   return (
-      <React.Fragment>
+      <div className={cl.chatPage}>
         <div className={cl.sideBar}>
           <div>
             <Search>
@@ -189,7 +190,7 @@ const AllChats = props => {
         </div>
 
         <Chat getTitle={getTitleFromChatRoom} chatRoom={selectedChatRoom} receiver={receiver} connection={props.connection}/>
-      </React.Fragment>
+      </div>
   );
 };
 
