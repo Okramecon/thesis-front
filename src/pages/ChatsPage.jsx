@@ -13,8 +13,13 @@ const ChatsPage = props => {
 
   useEffect(() => {
     const newConnection = ThesisAPI.getNewChatConnection();
+    console.log(newConnection)
     setConnection(newConnection);
   }, []);
+
+  useEffect(() => {
+    console.log(connection)
+  }, [connection]);
 
   return (
       <React.Fragment>

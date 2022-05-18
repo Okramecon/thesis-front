@@ -25,7 +25,7 @@ function NewsSection({ departmentId }) {
 
   useEffect(() => {
     fetchNews()
-  },[])
+  },[departmentId])
 
   return (
     <React.Fragment>

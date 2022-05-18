@@ -15,7 +15,7 @@ const DraggableCard = props => {
   }, [preview]);
 
   return (
-    <div ref={dragRef}>
+    <div style={{cursor:'pointer'}} ref={dragRef}>
       <TicketCard task={props.task} />
     </div>
   );

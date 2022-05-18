@@ -21,7 +21,7 @@ function CreateNewsModal({fetchNews}) {
   return (
     <React.Fragment>
       <Tooltip title='Create news' sx={{fontSize: 20}}>
-        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} sx={{ position: 'fixed', bottom: 16, right: 16, transform: 'translateZ(0px)' }}>
+        <Fab color="primary" aria-label="add" onClick={() => setOpen(true)} sx={{ position: 'fixed', bottom: 30, right: 50, transform: 'translateZ(0px)' }}>
           <AddIcon />
         </Fab>
       </Tooltip>

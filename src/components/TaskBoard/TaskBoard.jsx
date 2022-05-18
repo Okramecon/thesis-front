@@ -7,6 +7,7 @@ import ThesisAPIService from "API/ThesisAPI";
 import AlertSeverities from "helpers/AlertSeverities";
 import { AppContext } from "App";
 import { Box } from "@mui/material";
+import cl from "./TaskBoard.module.css"
 
 const TaskBoard = ({tasks}) => {
   const [myTasks, moveMyTask] = useState(tasks);
@@ -42,7 +43,7 @@ const TaskBoard = ({tasks}) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <CustomDragLayer />
-      <Box className="task-board" display='inline-flex' flexGrow={1} alignItems='start'>
+      <Box className={cl.taskBoard}>
         {columns}
       </Box>
     </DndProvider>

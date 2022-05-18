@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Message from "./Message";
 import cl from "./Chat.module.css";
 
 const ChatWindow = props => {
+
+  useEffect(() => {
+    var elem = document.getElementById('feed');
+    elem.scrollTop = elem.scrollHeight;
+  },[props.chat])
 
   const chat = props.chat === undefined ? [] : props.chat
       .map(m => <Message
@@ -13,7 +18,7 @@ const ChatWindow = props => {
 
   return (
       <React.Fragment>
-        <div className={cl.messageFeed}>
+        <div id="feed" className={cl.messageFeed}>
           {chat}
         </div>
       </React.Fragment>

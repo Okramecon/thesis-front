@@ -14,7 +14,6 @@
 }
 
 .main {
-  display: flex;
   justify-content: flex-start;
   flex-direction: row;
   height: 100%;
@@ -27,7 +26,8 @@
 
 .grid { 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, 250px);
+
   grid-gap: 20px;
   align-items: stretch;
 }
@@ -43,7 +43,7 @@
   /*******Cards*******/
 
 .cards_container {
-  padding: 20px 10px;
+  padding: 20px 0;
 }
 
 .addCardContent {
@@ -52,8 +52,6 @@
   background-repeat: no-repeat;
   height: 50px;
   width: 50px;
-  margin-left: auto;
-  margin-right: auto;
   margin: auto;
 }
 
@@ -74,7 +72,7 @@
   width: 100%;
   height: 60px;
   list-style-type: none;
-  margin: 0%;
+  margin: 0;
   display: flex;
   flex-direction: row;
   color: white;
@@ -92,7 +90,7 @@
   background-color: #293846;
 }
 
-/*deartment form*/
+/*department form*/
 .departmentForm {
   display: flex;
   flex-direction: column;

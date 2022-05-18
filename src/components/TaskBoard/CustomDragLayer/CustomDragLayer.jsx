@@ -6,6 +6,7 @@ import TicketCard from "../Card/TicketCard";
 const layerStyles = {
   position: "fixed",
   pointerEvents: "none",
+  width: "calc(100%/3 - 70px)",
   zIndex: 100,
   left: 0,
   top: 0
