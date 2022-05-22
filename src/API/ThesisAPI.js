@@ -86,7 +86,6 @@ export default class ThesisAPIService {
   }
 
   static async postProject({ title, summary, departmentId }) {
-    alert("r");
     var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) },
         {
         headers: {

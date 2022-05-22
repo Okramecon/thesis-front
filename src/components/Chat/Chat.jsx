@@ -55,7 +55,7 @@ const Chat = props => {
       }
     }
     else {
-      alert('No connection to server yet.');
+      console.log('No connection to server yet.');
     }
   }
 

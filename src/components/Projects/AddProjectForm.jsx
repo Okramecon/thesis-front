@@ -35,7 +35,6 @@ const AddProjectForm = ({closeModal, fetchProjects }) => {
     if(!validate()) {
       return
     }
-    alert(project.title);
     ThesisAPIService.postProject(project)
     .then(response => {
       if(response.ok) {
