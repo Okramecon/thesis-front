@@ -29,7 +29,7 @@ const Sidebar = ({setSidebarVisible, loggedIn}) => {
         <List>
           {
             SidebarButtons.WithoutLogin.map(({title, icon, link}) => (
-            <ListItem button key={title} onClick={() => navigate(link)}>
+            <ListItem button key={title} onClick={() => navigate(link)} disabled={true}>
               <ListItemIcon>
                 {icon}
               </ListItemIcon>

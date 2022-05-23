@@ -7,6 +7,7 @@ import ProjectsPage from "../pages/ProjectsPage"
 import ChatsPage from "../pages/ChatsPage";
 import ProjectIdPage from "../pages/ProjectIdPage";
 import NotFoundPage from "pages/NotFoundPage"
+import GuestPage from "pages/GuestPage"
 
 export const privateRoutes = [
 
@@ -21,6 +22,7 @@ export const publicRoutes = [
     {path: 'test', element: (<TestPage/>), exact: true},
     {path: 'project/:projectId', element: (<ProjectIdPage/>), exact: true},
     {path: 'chats', element: (<ChatsPage/>), exact: true},
+    {path: '/', element: (<GuestPage/>), exact: true},
     {path: '*', element: (<NotFoundPage/>), exact: true}
 
 ]

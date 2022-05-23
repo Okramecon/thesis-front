@@ -10,18 +10,18 @@ export const SidebarButtons = {
       title: "Departments",
       icon: <DepartmentsIcon />,
       link: "departments"
-    }
+    },
+    {
+      title: "Chats",
+      icon: <ChatIcon />,
+      link: "chats"
+    },
   ],
   WithoutLogin: [
     {
       title: "Settings",
       icon: <Settings />,
       link: "settings"
-    },
-    {
-        title: "Chats",
-        icon: <ChatIcon />,
-        link: "chats"
     },
     {
       title: "Mail",
