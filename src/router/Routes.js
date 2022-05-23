@@ -6,6 +6,7 @@ import Departments from "../pages/Departments"
 import ProjectsPage from "../pages/ProjectsPage"
 import ChatsPage from "../pages/ChatsPage";
 import ProjectIdPage from "../pages/ProjectIdPage";
+import NotFoundPage from "pages/NotFoundPage"
 
 export const privateRoutes = [
 
@@ -19,5 +20,7 @@ export const publicRoutes = [
     {path: 'token/:token', element: (<EmailTokenHandlerPage/>), exact: true},
     {path: 'test', element: (<TestPage/>), exact: true},
     {path: 'project/:projectId', element: (<ProjectIdPage/>), exact: true},
-    {path: 'chats', element: (<ChatsPage/>), exact: true}
+    {path: 'chats', element: (<ChatsPage/>), exact: true},
+    {path: '*', element: (<NotFoundPage/>), exact: true}
+
 ]

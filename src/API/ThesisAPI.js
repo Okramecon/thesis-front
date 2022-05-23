@@ -30,7 +30,7 @@ const handleResponse = (response, okMessage, badMessage) => {
       return { ok: true, message: okMessage, data: null};
     case 400:;
     case 500:
-      return { ok: false, message: badMessage };
+      return { ok: false, message: 'Oops! Something went wrong' };
     case 401: 
       return { ok: false, message: 'You are not logged in!' };
     case 403: 
@@ -74,6 +74,14 @@ export default class ThesisAPIService {
     }})
     
     return handleResponse(response, 'Successfully created department!', response.data.Message)
+  }
+
+  static async getUsersByDepartment(departmentId) {
+    var response = await axios.get(`${apiUrl}/Departments/${departmentId}/users`, { headers: {
+      'Authorization': getBearerToken()
+    }})
+    
+    return handleResponse(response, 'Successfully fetched users!', response.data.Message)
   }
 
   /* PROJECTS */

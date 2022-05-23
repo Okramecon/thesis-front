@@ -10,8 +10,7 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title, fetchDepar
         return(<div></div>);
 
     const roles = localStorage.getItem('roles');
-    const isDepartmentAdmin = roles.includes('Admin') || roles.includes('DepartmentAdmin')
-
+    const isDepartmentAdmin = roles.includes('Admin')
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>

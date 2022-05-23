@@ -4,7 +4,7 @@ import { AppContext } from 'App'
 import AlertSeverities from 'helpers/AlertSeverities'
 import React, { useContext, useState } from 'react'
 
-function UserToDepartmentForm({ departmentId }) {
+function UserToDepartmentForm({ departmentId, fetchUsers }) {
   const setAlertState = useContext(AppContext)
   const [userEmail, setUserEmail] = useState('')
 
@@ -17,9 +17,9 @@ function UserToDepartmentForm({ departmentId }) {
     .then(response => {
       if(response.ok) {
         setAlertState({ alertOpen: true, message: `Added ${userEmail} to this department!`, severity: AlertSeverities.success})
+        fetchUsers()
       } else {
         setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
-        return
       }
     })
   }
