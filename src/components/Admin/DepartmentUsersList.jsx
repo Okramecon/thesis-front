@@ -1,18 +1,54 @@
-import { List, ListItem, Stack, Typography } from '@mui/material'
+import { Button, List, ListItem, Stack, Typography } from '@mui/material'
 import ThesisAPIService from 'API/ThesisAPI'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { AppContext } from 'App'
+import AlertSeverities from 'helpers/AlertSeverities'
+import React, { useContext, useEffect, useState } from 'react'
 
-function DepartmentUsersList({users}) {
+function DepartmentUsersList({users, departmentId, fetchUsers}) {
+  const setAlertState = useContext(AppContext)
+
+  const isDepartmentAdmin = (roles) => {
+    return roles && (roles.includes('DepartmentAdmin') || roles.includes('Admin'))
+  }
+
+  const removeUserFromDepartment = (userId) => {
+    ThesisAPIService.removeUserFromDepartment(userId, departmentId)
+    .then(response => {
+      if(response.ok) {
+        setAlertState({ alertOpen: true, message: `Removed user from this department!`, severity: AlertSeverities.success})
+        fetchUsers()
+      } else {
+        setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
+      }
+    })
+  }
+
+  const makeUserDepartmentAdmin = (userId) => {
+    ThesisAPIService.addUserToRoles(userId, ["DepartmentAdmin"])
+    .then(response => {
+      if(response.ok) {
+        setAlertState({ alertOpen: true, message: `Removed user from this department!`, severity: AlertSeverities.success})
+        fetchUsers()
+      } else {
+        setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
+      }
+    })
+  }
 
   return (
     <React.Fragment>
-      <Typography>DepartmentUsersList</Typography>
+      <Typography>Department users</Typography>
       <List>
         {
           users.map(item => 
             <ListItem key={item.id}>
               <Typography>{item.firstName} {item.lastName}   [{item.userName}]</Typography>
+              <Button onClick={() => removeUserFromDepartment(item.id)} sx={{ml:'20px', mr:'5px'}}>
+                Remove from department
+              </Button>
+              {!isDepartmentAdmin(item.roles) && <Button onClick={() => makeUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
+                Make Department Admin
+              </Button>}
             </ListItem>)
         }
       </List>

@@ -4,13 +4,13 @@ import ThesisAPIService from "API/ThesisAPI"
 import { AppContext } from "App"
 import AlertSeverities from "helpers/AlertSeverities"
 import React, { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 
 function LoginForm({ setLoggedIn }) {
   const [loginCredentials, setLoginCredentials] = useState({login:'', password:''})
   const {login, password} = loginCredentials
   const setAlertState = useContext(AppContext)
-
+  const navigate = useNavigate()
   const validateLoginCredentials = () => {
     return login && password
   }
@@ -30,6 +30,7 @@ function LoginForm({ setLoggedIn }) {
           console.log(response.expires)
           setAlertState({ alertOpen: true, message: 'Successfully logged in!', severity: AlertSeverities.success})
           setLoggedIn(true)
+          navigate('departments')
           return
         } else {
           setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   

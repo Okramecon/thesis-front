@@ -28,7 +28,7 @@ const DepartmentStaff = props => {
       <>
         {isDepartmentAdmin && <UserToDepartmentForm departmentId={props.departmentId} fetchUsers={fetchUsers}/>}
         <Divider sx={{mt: '10px', mb: '10px'}}/>
-        {isDepartmentAdmin && <DepartmentUsersList users={users}/>}
+        {isDepartmentAdmin && <DepartmentUsersList users={users} fetchUsers={fetchUsers} departmentId={departmentId}/>}
       </>
   );
 };

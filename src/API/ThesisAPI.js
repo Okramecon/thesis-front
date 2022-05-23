@@ -84,6 +84,14 @@ export default class ThesisAPIService {
     return handleResponse(response, 'Successfully fetched users!', response.data.Message)
   }
 
+  static async removeUserFromDepartment(userIdToDelete, departmentId) {
+    var response = await axios.delete(`${apiUrl}/Departments/${departmentId}/user/${userIdToDelete}`, { headers: {
+      'Authorization': getBearerToken()
+    }})
+    
+    return handleResponse(response, 'Successfully removed users!', response.data.Message)
+  }
+
   /* PROJECTS */
 
   static async getProjectsByDepartmentId(id) {
@@ -143,7 +151,7 @@ export default class ThesisAPIService {
 
   static async registerNewUser(registerData) {
     var response = await axios.post(`${apiUrl}/Users`, { ...registerData, userName: registerData.email }, { validateStatus: () => true })
-    return handleResponse(response, 'Confirmation code sent to your email!', response.data.Message)
+    return handleResponse(response, 'Confirmation code sent to your email! CHECK SPAM!', response.data.Message)
   }
   
   /*Tasks */
@@ -260,5 +268,15 @@ export default class ThesisAPIService {
     return axios.post(`${apiUrl}/Medias`, formData, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
     }})
+  }
+
+  /* ROLES */
+
+  static async addUserToRoles(userId, roles) {
+    var response = await axios.post(`${apiUrl}/Auth/AddToRoles?userId=${userId}`, roles, { validateStatus: () => true , headers: {
+      'Authorization': getBearerToken() 
+    }})
+    
+    return handleResponse(response, 'Successfully added to roles!', response.data.Message)
   }
 }

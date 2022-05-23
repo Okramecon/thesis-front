@@ -13,6 +13,7 @@ function UserToDepartmentForm({ departmentId, fetchUsers }) {
   }
 
   const addUserToDepartment = () => {
+    if(!userEmail) return
     ThesisAPIService.addUserToDepartmentByEmail(userEmail, departmentId)
     .then(response => {
       if(response.ok) {
@@ -25,19 +26,22 @@ function UserToDepartmentForm({ departmentId, fetchUsers }) {
   }
 
   return (
-    <Box>
-      <TextField
-        required
-        id="1"
-        label="email"
-        value={userEmail}
-        onChange={handleEmailChange}
-        size='small'
-      />
-      <Button onClick={addUserToDepartment}>
-        Add User to department
-      </Button>
-    </Box>
+    <React.Fragment>
+      <Box>
+        <TextField
+          required
+          id="1"
+          label="email"
+          value={userEmail}
+          onChange={handleEmailChange}
+          size='small'
+          placeholder='user email'
+        />
+        <Button onClick={addUserToDepartment} sx={{ml:'5px', mr:'5px'}}>
+          Add User to department
+        </Button>
+      </Box>
+    </React.Fragment>
   )
 }
 

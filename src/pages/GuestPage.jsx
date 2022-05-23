@@ -1,5 +1,4 @@
 import { Box, Button, Stack, Typography } from '@mui/material'
-import NewsFeed from 'components/NewsFeed/NewsFeed'
 import React from 'react'
 
 export default function GuestPage() {
