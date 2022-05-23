@@ -7,7 +7,7 @@ var apiUrl = "https://api.thesis.uno/api";
 if(process.env.NODE_ENV !== "development") {
     apiUrl = "https://api.thesis.uno/api";
 } else {
-    apiUrl = "https://localhost:44312/api";
+    apiUrl = "https://api.thesis.uno/api";
 }
 
 var chatSocketUrl = "https://api.thesis.uno/chat";

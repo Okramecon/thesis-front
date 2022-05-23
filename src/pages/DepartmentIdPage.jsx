@@ -36,6 +36,9 @@ const DepartmentIdPage = () => {
     setTabValue(newValue);
   };
 
+  const roles = localStorage.getItem('roles');
+  const isDepartmentAdmin = roles.includes('Admin') || roles.includes('DepartmentAdmin')
+
   return (
     <div style={mainStyle}>
       <TabContext value={tabValue}>
@@ -43,7 +46,7 @@ const DepartmentIdPage = () => {
           <TabList onChange={handleTabValueChange} aria-label="lab API tabs">
             <Tab label="Profile" value="profile" />
             <Tab label="Projects" value="projects" />
-            <Tab label="Staff" value="staff" />
+            { isDepartmentAdmin && <Tab label="Staff" value="staff" /> }
           </TabList>
         </Box>
         <TabPanel value="profile">

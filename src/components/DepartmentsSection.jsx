@@ -9,6 +9,9 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title, fetchDepar
     if (isDepartmentLoading)
         return(<div></div>);
 
+    const roles = localStorage.getItem('roles');
+    const isDepartmentAdmin = roles.includes('Admin') || roles.includes('DepartmentAdmin')
+
     return (
         <div>
             <h1 style={{textAlign: 'center'}}>
@@ -20,7 +23,7 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title, fetchDepar
                     departments.map((department) =>
                     <ClickableCard key={department.id} id={department.id} title={department.title} summary={department.summary} onClickAction={() => navigate(`/departments/${department.id}`)}/>)
                 }
-                <CreateDepartmentModal fetchDepartments={fetchDepartments}/>
+                { isDepartmentAdmin && <CreateDepartmentModal fetchDepartments={fetchDepartments}/> }
                 </div>
             </div>
         </div>

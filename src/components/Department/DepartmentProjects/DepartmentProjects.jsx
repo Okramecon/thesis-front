@@ -31,6 +31,9 @@ const DepartmentProjects = props => {
     openInNewTab(`/project/${projectId}`)
   }
 
+  const roles = localStorage.getItem('roles');
+  const isDepartmentAdmin = roles.includes('Admin') || roles.includes('DepartmentAdmin')
+
   return (
       <div>
         <div className='cards_container'>
@@ -44,7 +47,7 @@ const DepartmentProjects = props => {
                     onClickAction={() => onProjectClick(project.id)}/>)}
           </div>
         </div>
-        <CreateProjectModal fetchProjects={fetchProjects}/>
+        { isDepartmentAdmin && <CreateProjectModal fetchProjects={fetchProjects}/> }
       </div>
   );
 };

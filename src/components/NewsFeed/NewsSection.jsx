@@ -23,6 +23,9 @@ function NewsSection({ departmentId }) {
     })
   }
 
+  const roles = localStorage.getItem('roles');
+  const isDepartmentAdmin = roles.includes('Admin') || roles.includes('DepartmentAdmin')
+
   useEffect(() => {
     fetchNews()
   },[departmentId])
@@ -34,7 +37,7 @@ function NewsSection({ departmentId }) {
           <NewsCard key={item.id} item={item}/>
         )
       }    
-      <CreateNewsModal fetchNews={fetchNews}/>
+      { isDepartmentAdmin && <CreateNewsModal fetchNews={fetchNews}/> }
     </React.Fragment>
   )
 }
