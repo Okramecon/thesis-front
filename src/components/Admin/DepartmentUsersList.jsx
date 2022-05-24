@@ -11,6 +11,10 @@ function DepartmentUsersList({users, departmentId, fetchUsers}) {
     return roles && (roles.includes('DepartmentAdmin') || roles.includes('Admin'))
   }
 
+  const isAdmin = (roles) => {
+    return roles && (roles.includes('Admin'))
+  }
+
   const removeUserFromDepartment = (userId) => {
     ThesisAPIService.removeUserFromDepartment(userId, departmentId)
     .then(response => {
@@ -27,7 +31,19 @@ function DepartmentUsersList({users, departmentId, fetchUsers}) {
     ThesisAPIService.addUserToRoles(userId, ["DepartmentAdmin"])
     .then(response => {
       if(response.ok) {
-        setAlertState({ alertOpen: true, message: `Removed user from this department!`, severity: AlertSeverities.success})
+        setAlertState({ alertOpen: true, message: `Made user department admin!`, severity: AlertSeverities.success})
+        fetchUsers()
+      } else {
+        setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
+      }
+    })
+  }
+
+  const takeAwayUserDepartmentAdmin = (userId) => {
+    ThesisAPIService.removeUserFromRoles(userId, ["DepartmentAdmin"])
+    .then(response => {
+      if(response.ok) {
+        setAlertState({ alertOpen: true, message: `Took away department admin from user!`, severity: AlertSeverities.success})
         fetchUsers()
       } else {
         setAlertState({ alertOpen: true, message: response.message, severity: AlertSeverities.error})   
@@ -46,8 +62,11 @@ function DepartmentUsersList({users, departmentId, fetchUsers}) {
               <Button onClick={() => removeUserFromDepartment(item.id)} sx={{ml:'20px', mr:'5px'}}>
                 Remove from department
               </Button>
-              {!isDepartmentAdmin(item.roles) && <Button onClick={() => makeUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
+              {!isAdmin(item.roles) && <Button onClick={() => makeUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
                 Make Department Admin
+              </Button>}
+              {isAdmin(item.roles) && <Button onClick={() => takeAwayUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
+                Take Away Department Admin
               </Button>}
             </ListItem>)
         }

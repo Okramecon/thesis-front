@@ -26,8 +26,6 @@ const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
       return { ok: true, message: okMessage, data: response.data};
-      case 200:
-      return { ok: true, message: okMessage, data: null};
     case 400:;
     case 500:
       return { ok: false, message: 'Oops! Something went wrong' };
@@ -278,5 +276,13 @@ export default class ThesisAPIService {
     }})
     
     return handleResponse(response, 'Successfully added to roles!', response.data.Message)
+  }
+  
+  static async removeUserFromRoles(userId, roles) {
+    var response = await axios.post(`${apiUrl}/Auth/RemoveFromRoles?userId=${userId}`, roles, { validateStatus: () => true , headers: {
+      'Authorization': getBearerToken() 
+    }})
+    
+    return handleResponse(response, 'Successfully removed from roles!', response.data.Message)
   }
 }
