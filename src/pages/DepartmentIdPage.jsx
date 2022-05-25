@@ -9,7 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import DepartmentProfile from "../components/Department/DepartmentProfile/DepartmentProfile";
 import DepartmentStaff from "../components/Department/DepartmentStaff/DepartmentStaff";
 import DepartmentProjects from "../components/Department/DepartmentProjects/DepartmentProjects";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const mainStyle = {
   boxShadow: "1px 4px 5px 1px rgba(0,0,0,0.2)",
@@ -20,11 +20,17 @@ const DepartmentIdPage = () => {
   const params = useParams();
   const [tabValue, setTabValue] = useState("profile");
   const [department, setDepartment] = useState({});
+  const navigate = useNavigate()
 
   const fetchDepartment = (id) => {
     ThesisAPIService.getDepartmentById(id)
     .then(response => {
-      setDepartment(response.data);
+      if(response.ok) {
+        setDepartment(response.data)
+      } else {
+        console.log("TeST")
+        navigate('/departments')
+      }
     })
   }
 

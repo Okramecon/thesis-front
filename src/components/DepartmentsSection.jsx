@@ -9,7 +9,7 @@ const DepartmentsSection = ({isDepartmentLoading, departments, title, fetchDepar
     if (isDepartmentLoading)
         return(<div></div>);
 
-    const roles = localStorage.getItem('roles');
+    const roles = localStorage.getItem('roles').split(',');
     const isDepartmentAdmin = roles.includes('Admin')
     return (
         <div>

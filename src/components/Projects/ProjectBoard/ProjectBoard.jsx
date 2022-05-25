@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ThesisAPIService from "../../../API/ThesisAPI";
 import {TaskStatusEnum} from "../../../helpers/EnumHelpers";
 import TaskBoard from "../../TaskBoard/TaskBoard";
@@ -10,19 +10,28 @@ const ProjectBoard = props => {
   const [tickets, setTickets] = useState([]);
   const [board, setBoard] = useState();
   const isMounted = useRef(true);
-
+  const navigate = useNavigate()
+  
   const fetchTasks = () =>  {
     ThesisAPIService.getTasksByProjectId(props.projectId)
-        .then(response => {
+      .then(response => {
+        if(response.ok) {
           if (isMounted.current)
             setTickets(response.data)
-        })
+        } else {
+          navigate('/departments')
+        }
+      })
   }
 
   const fetchBoard = () =>  {
     ThesisAPIService.getBoardByProjectId(props.projectId)
         .then(response => {
-          setBoard(response.data)
+          if(response.ok) {
+            setBoard(response.data)
+          } else {
+            navigate('/departments')
+          }
         })
   }
 

@@ -8,11 +8,11 @@ function DepartmentUsersList({users, departmentId, fetchUsers}) {
   const setAlertState = useContext(AppContext)
 
   const isDepartmentAdmin = (roles) => {
-    return roles && (roles.includes('DepartmentAdmin') || roles.includes('Admin'))
+    return roles && (roles.split(',').includes('DepartmentAdmin'))
   }
 
   const isAdmin = (roles) => {
-    return roles && (roles.includes('Admin'))
+    return roles && (roles.split(',').includes('Admin'))
   }
 
   const removeUserFromDepartment = (userId) => {
@@ -62,10 +62,10 @@ function DepartmentUsersList({users, departmentId, fetchUsers}) {
               <Button onClick={() => removeUserFromDepartment(item.id)} sx={{ml:'20px', mr:'5px'}}>
                 Remove from department
               </Button>
-              {!isAdmin(item.roles) && <Button onClick={() => makeUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
+              {!isDepartmentAdmin(item.roles) && <Button onClick={() => makeUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
                 Make Department Admin
               </Button>}
-              {isAdmin(item.roles) && <Button onClick={() => takeAwayUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
+              {isDepartmentAdmin(item.roles) && <Button onClick={() => takeAwayUserDepartmentAdmin(item.id)} sx={{ml:'20px', mr:'5px'}}>
                 Take Away Department Admin
               </Button>}
             </ListItem>)

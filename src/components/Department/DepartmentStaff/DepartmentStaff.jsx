@@ -4,7 +4,7 @@ import UserToDepartmentForm from "../../Admin/UserToDepartmentForm";
 import DepartmentUsersList from 'components/Admin/DepartmentUsersList';
 import { Divider } from '@mui/material';
 import ThesisAPIService from 'API/ThesisAPI';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const DepartmentStaff = props => {
 
@@ -13,10 +13,16 @@ const DepartmentStaff = props => {
 
   const [users, setUsers] = useState([])
   const { departmentId } = useParams()
+
+  const navigate = useNavigate()
   const fetchUsers = () => {
     ThesisAPIService.getUsersByDepartment(departmentId)
-    .then(items => {
-      setUsers(items.data)
+    .then(response => {
+      if(response.ok) {
+        setUsers(response.data)
+      } else {
+        navigate('/departments')
+      }
     })
   }
 

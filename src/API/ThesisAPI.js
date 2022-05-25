@@ -45,23 +45,24 @@ export default class ThesisAPIService {
   static async getAllDepartments() {
       var response = await axios.get(`${apiUrl}/Departments`, { headers: {
         'Authorization': getBearerToken()
-      }})
+      },
+      validateStatus: () => true})
       return handleResponse(response, 'Successfully fetched departments', 'Couldnt fetch departments')
   }
 
   static async getDepartmentById(id) {
       var response = await axios.get(`${apiUrl}/Departments/${id}`, { headers: {
         'Authorization': getBearerToken()
-      }})
-      return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
-        'Authorization': getBearerToken()
-      }})
+      },
+      validateStatus: () => true})
+      return handleResponse(response, 'Successfully fetched department', response.data.Message)
   }
 
   static async postDepartment(model) {
     var response = await axios.post(`${apiUrl}/Departments/`, model, { headers: {
       'Authorization': getBearerToken()
-    }})
+    },
+    validateStatus: () => true})
     
     return handleResponse(response, 'Successfully created department!', response.data.Message)
   }
@@ -69,7 +70,8 @@ export default class ThesisAPIService {
   static async addUserToDepartmentByEmail(userEmail, departmentId) {
     var response = await axios.get(`${apiUrl}/Departments/addUserByEmail/${departmentId}?userName=${userEmail}`, { headers: {
       'Authorization': getBearerToken()
-    }})
+    },
+    validateStatus: () => true})
     
     return handleResponse(response, 'Successfully created department!', response.data.Message)
   }
@@ -77,7 +79,8 @@ export default class ThesisAPIService {
   static async getUsersByDepartment(departmentId) {
     var response = await axios.get(`${apiUrl}/Departments/${departmentId}/users`, { headers: {
       'Authorization': getBearerToken()
-    }})
+    },
+    validateStatus: () => true})
     
     return handleResponse(response, 'Successfully fetched users!', response.data.Message)
   }
@@ -85,7 +88,8 @@ export default class ThesisAPIService {
   static async removeUserFromDepartment(userIdToDelete, departmentId) {
     var response = await axios.delete(`${apiUrl}/Departments/${departmentId}/user/${userIdToDelete}`, { headers: {
       'Authorization': getBearerToken()
-    }})
+    },
+    validateStatus: () => true})
     
     return handleResponse(response, 'Successfully removed users!', response.data.Message)
   }
@@ -95,23 +99,28 @@ export default class ThesisAPIService {
   static async getProjectsByDepartmentId(id) {
     var response = await axios.get(`${apiUrl}/Departments/${id}/projects`, { headers: {
       'Authorization': getBearerToken()
-    }});
-    return response;
+    },
+    validateStatus: () => true});
+    return handleResponse(response, 'Sucessfully fetched projects', response.data.Message)
   }
 
   static async postProject({ title, summary, departmentId }) {
     var response = await axios.post(`${apiUrl}/Projects`, { title: title, summary: summary, departmentId: Number(departmentId) },
-        {
+      {
         headers: {
         'Authorization': getBearerToken()
-    }})
+        },
+        validateStatus: () => true
+      })
     return handleResponse(response, 'Successfully created project!', response.data.Message)
   }
 
   static async getProjectById(id) {
     var response = await axios.get(`${apiUrl}/Projects/${id}`, { headers: {
         'Authorization': getBearerToken()
-      }})
+      },
+      validateStatus: () => true
+    })
     return handleResponse(response, 'Successfully fetched department', response.data.Message, { headers: {
         'Authorization': getBearerToken()
       }})
@@ -155,14 +164,14 @@ export default class ThesisAPIService {
   /*Tasks */
   
   static async getTasksByProjectId(id) {
-      var response = await axios.get(`${apiUrl}/Projects/${id}/tickets`);
+      var response = await axios.get(`${apiUrl}/Projects/${id}/tickets`, { validateStatus: () => true });
       return handleResponse(response, 'Successfully fetched tasks!', response.data.Message)
   }
 
   static async UpdateTask(model) {
     var response = await axios.put(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
-      'Authorization': getBearerToken() 
-    }});
+      'Authorization': getBearerToken()
+    }, validateStatus: () => true});
 
     return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }
@@ -170,7 +179,7 @@ export default class ThesisAPIService {
   static async createTicket(model) {
     var response = await axios.post(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
-    }});
+    }, validateStatus: () => true});
 
     return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }

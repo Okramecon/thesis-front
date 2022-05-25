@@ -5,7 +5,7 @@ import {Box} from "@mui/material";
 import TabList from "@mui/lab/TabList";
 import Tab from "@mui/material/Tab";
 import TabPanel from "@mui/lab/TabPanel";
-import {useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import ProjectProfile from "../components/Projects/ProjectProfile/ProjectProfile";
 import ThesisAPIService from "../API/ThesisAPI";
 import ProjectBoard from "../components/Projects/ProjectBoard/ProjectBoard";
@@ -20,11 +20,15 @@ const ProjectIdPage = props => {
   const params = useParams();
   const [tabValue, setTabValue] = useState("profile");
   const [project, setProject] = useState({});
-
+  const navigate = useNavigate()
   const fetchProject = (id) => {
     ThesisAPIService.getProjectById(id)
         .then(response => {
-          setProject(response.data);
+          if(response.ok) {
+            setProject(response.data);
+          } else {
+            navigate('/departments')
+          }
         })
   }
 

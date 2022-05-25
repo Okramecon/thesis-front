@@ -13,7 +13,12 @@ const DepartmentProjects = props => {
   const fetchProjects = () => {
     ThesisAPIService.getProjectsByDepartmentId(props.departmentId)
         .then(response => {
-          setProjects(response.data);
+          
+          if(response.ok) {
+            setProjects(response.data);
+          } else {
+            navigate('/departments')
+          }
         });
   }
 
