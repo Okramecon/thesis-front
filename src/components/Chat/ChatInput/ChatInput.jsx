@@ -1,8 +1,6 @@
 import React, {useContext, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
-import cl from "./Chat.module.css"
+import cl from "./ChatInput.module.css"
 import SendIcon from "@material-ui/icons/Send";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 const ChatInput = props => {

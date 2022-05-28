@@ -1,0 +1,7 @@
+.textItem {
+    white-space: nowrap;
+    width: 100px;
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

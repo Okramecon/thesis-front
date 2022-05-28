@@ -15,7 +15,7 @@ var chatSocketUrl = "https://api.thesis.uno/chat";
 if(process.env.NODE_ENV !== "development") {
   chatSocketUrl = "https://api.thesis.uno/chat";
 } else {
-  chatSocketUrl = "https://localhost:44312/chat";
+  chatSocketUrl = "https://api.thesis.uno/chat";
 }
 
 const getBearerToken = () => {
@@ -26,7 +26,7 @@ const handleResponse = (response, okMessage, badMessage) => {
   switch(response.status) {
     case 200:
       return { ok: true, message: okMessage, data: response.data};
-    case 400:;
+    case 400:
     case 500:
       return { ok: false, message: 'Oops! Something went wrong' };
     case 401: 
@@ -149,7 +149,7 @@ export default class ThesisAPIService {
               userId: response.data.userId,
               roles: response.data.roles
             }
-        case 400:;
+        case 400:
         case 500:
             return { ok: false, message: response.data.Message }
         default: return { ok: false, message: 'Oops! Something went wrong' };
@@ -171,7 +171,7 @@ export default class ThesisAPIService {
   static async UpdateTask(model) {
     var response = await axios.put(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken()
-    }, validateStatus: () => true});
+    }});
 
     return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }
@@ -179,7 +179,7 @@ export default class ThesisAPIService {
   static async createTicket(model) {
     var response = await axios.post(`${apiUrl}/Tickets`, model, { validateStatus: () => true, headers: {
       'Authorization': getBearerToken() 
-    }, validateStatus: () => true});
+    }});
 
     return handleResponse(response, 'Successfully saved changes!', response.data.Message)
   }
@@ -231,7 +231,7 @@ export default class ThesisAPIService {
     return handleResponse(response, 'Successfully fetched board!', response.data.Message)
   }
 
-  /* Chat */
+  /* ChatWindow */
 
   static getNewChatConnection() {
     return new HubConnectionBuilder()
