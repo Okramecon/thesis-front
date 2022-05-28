@@ -1,16 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import ThesisAPI from "../../API/ThesisAPI";
-import ChatInput from "./ChatInput";
-import ChatWindow from "./ChatWindow";
-import ThesisAPIService from "../../API/ThesisAPI";
-import AlertSeverities from "../../helpers/AlertSeverities";
-import {AppContext} from "../../App";
-import cl from "./Chat.module.css";
-import ChatHeader from "./ChatHeader";
+import ChatInput from "../ChatInput/ChatInput";
+import cl from "./ChatWindow.module.css";
+import ChatHeader from "../ChatHeader/ChatHeader";
+import chatIcon from "../../../images/chat-icon.svg"
+import ChatMessageFeed from "../ChatMessageFeed/ChatMessageFeed";
 
-const Chat = props => {
-  const setAlertState = useContext(AppContext)
+const ChatWindow = props => {
 
   const [chat, setChat] = useState([]);
   const latestChat = useRef(null);
@@ -38,6 +34,15 @@ const Chat = props => {
     }
   }, [props.connection]);
 
+  if (!props.chatRoom) {
+    return (
+      <div className={cl.selectChatBanner}>
+        <img className={cl.icon} src={chatIcon}/>
+        <h1>Select chat</h1>
+      </div>
+    );
+  }
+
   const sendMessage = async (message, replyTo) => {
     const chatMessage = {
       fromId: from,
@@ -63,14 +68,14 @@ const Chat = props => {
       <React.Fragment>
         <div className={cl.chat}>
           <ChatHeader title={props.getTitle(props.chatRoom)}/>
-          <ChatWindow chat={chat}/>
+          <ChatMessageFeed chat={chat}/>
           <ChatInput sendMessage={sendMessage} />
         </div>
       </React.Fragment>
   );
 };
 
-Chat.propTypes = {
+ChatWindow.propTypes = {
   chatRoom: PropTypes.shape({
     id: PropTypes.number,
     users: PropTypes.arrayOf(
@@ -87,4 +92,4 @@ Chat.propTypes = {
   connection: PropTypes.object
 };
 
-export default Chat;
+export default ChatWindow;

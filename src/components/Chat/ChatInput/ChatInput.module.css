@@ -1,0 +1,28 @@
+.inputPanel {
+    float: bottom;
+    width: 100%;
+    padding: 5px 10px;
+    height: auto;
+    border-top: 1px solid lightgray;
+    border-radius: 0 0 5px 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+}
+
+.sendButton {
+    margin-left: 5px;
+    background-color: white;
+    width: 10%;
+    border-width: 1px;
+    border-color: lightgray;
+    border-radius: 5px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.sendButton:hover {
+    border-color: #9ac3eb;
+}

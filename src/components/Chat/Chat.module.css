@@ -2,44 +2,18 @@
     display: inline-flex;
     flex-direction: row;
     width: 100%;
+    height: 85vh;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
 }
 
 .sideBar {
-    background-color: #70aae3;
     display: flex;
     flex-direction: column;
     padding: 10px 5px;
     border-radius: 5px 0 0 5px;
-    width: 30%;
-}
-
-.chatRoomList {
-    margin: 10px 0;
-    height: 100%;
-    borderRadius: 5px;
-    overflowY: auto;
-}
-
-.chat {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 85vh;
-    flex-grow: 1;
-}
-
-.inputPanel {
-    float: bottom;
-    width: 100%;
-    padding: 5px 10px;
-    background-color: #f6f6f6;
-    height: auto;
-    border-radius: 0 0 5px 0;
-}
-
-.form {
-    display: flex;
-    flex-direction: row;
+    box-shadow: 2px 0px 5px -2px rgba(0,0,0,0.2);
+    width: 50%;
+    min-width: 200px;
 }
 
 .messageInput {
@@ -47,37 +21,6 @@
     height: 10px;
     border-radius: 5px;
     width: 90%;
-}
-
-.sendButton {
-    margin-left: 5px;
-    width: 10%;
-    border-width: 1px;
-    border-color: #70aae3;
-    border-radius: 5px;
-    height: 40px
-}
-
-.chatHeader {
-    float: top;
-    width: 100%;
-    padding-left: 80px;
-    background-color: #70aae3;
-    border-radius: 0 5px 0 0;
-    padding-top: 15px;
-    height: 60px;
-    color: #f6f6f6;
-}
-
-.messageFeed {
-    background-color: #f6f6f6;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-
 }
 
 .messageContainer {

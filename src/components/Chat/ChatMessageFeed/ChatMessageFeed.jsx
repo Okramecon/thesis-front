@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Message from "./Message";
-import cl from "./Chat.module.css";
+import Message from "../Message";
+import cl from "./ChatMessageFeed.module.css";
 
-const ChatWindow = props => {
+const ChatMessageFeed = props => {
 
   useEffect(() => {
-    var elem = document.getElementById('feed');
+    let elem = document.getElementById('feed');
     elem.scrollTop = elem.scrollHeight;
   },[props.chat])
 
@@ -25,11 +25,11 @@ const ChatWindow = props => {
   );
 };
 
-ChatWindow.propTypes = {
+ChatMessageFeed.propTypes = {
   chat: PropTypes.arrayOf(PropTypes.shape({
     message: PropTypes.string,
     fromId: PropTypes.string
   }))
 };
 
-export default ChatWindow;
+export default ChatMessageFeed;
